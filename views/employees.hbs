@@ -11,12 +11,6 @@
         <h2>Employees</h2>
         <hr />
 
-        {{!-- {{#each employees}}
-        {{this.firstName}} {{this.lastName}}<br />
-        {{/each}};
-        --}}
-
-
         <table class="table">
             <thead>
                 <tr>
@@ -45,20 +39,10 @@
                 {{/each}}
             </tbody>
         </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
+    {{#unless employees}}
+    <strong>{{message}}</strong>
+    {{/unless}}
 </div>
 
 
