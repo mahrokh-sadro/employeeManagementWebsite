@@ -128,7 +128,7 @@ app.get("/employees", (req, res) => {
     }
 });
 
-app.get("/employee/:empNum", (req, res) => {
+app.get("/employee/:empNum", (req, res) => {/////meaning???
     data.getEmployeeByNum(req.params.empNum).then((data) => {
       //  res.json(data);//???????????
       res.render("employees", {employees: data})
@@ -147,7 +147,8 @@ app.get("/managers", (req, res) => {
 
 app.get("/departments", (req, res) => {
     data.getDepartments().then((data) => {
-        res.json(data);
+       // res.json(data);
+       res.render("departments", {departments: data});
     });
 });
 
