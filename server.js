@@ -131,10 +131,10 @@ app.get("/employees", (req, res) => {
 app.get("/employee/:empNum", (req, res) => {/////meaning???
     data.getEmployeeByNum(req.params.empNum).then((data) => {
       //  res.json(data);//???????????
-      res.render("employees", {employees: data})
+      res.render("employee", {employees: data})//wats ???
     }).catch((err) => {
        // res.json({ message: "no results" });
-       res.render("employees", {message: "no results"});
+       res.render("employee", {message: "no results"});
     });
 });
 
