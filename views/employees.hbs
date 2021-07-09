@@ -1,4 +1,5 @@
-{{!-- Replace the <p> element (containing the TODO message) with code to iterate over eachemployeeand simply render their
+{{!-- Replace the <p> element (containing the TODO message) with code to iterate over eachemployeeand simply render
+    their
     first and last names(you may assume that there will be an "employees" array (see below). •Once this is done, update
     yourGET"/employees" route according to the following specificationoEvery time you would have usedres.json(data),
     modify it to instead useres.render("employees", {employees: data})oEvery time you would have usedres.json({message:
@@ -10,40 +11,40 @@
         <h2>Employees</h2>
         <hr />
 
-    {{!-- {{#each employees}}
-      {{this.firstName}} {{this.lastName}}<br/>
-    {{/each}};
-     --}}
+        {{!-- {{#each employees}}
+        {{this.firstName}} {{this.lastName}}<br />
+        {{/each}};
+        --}}
 
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Employee Num  </th>
-      <th scope="col">Full Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Address</th>
-      <th scope="col">Manager ID</th>
-      <th scope="col">Status</th>
-      <th scope="col">Department</th>
-      <th scope="col">Hired On</th>
-    </tr>
-  </thead>
-  <tbody>
-      {{#each employees}}
-    <tr>
-      <th scope="row">{{this.employeeNum}}</th>
-      <td>{{this.firstName}} {{this.lastName}}</td>
-      <td>{{this.email}}</td>
-      <td>{{this.addressStreet}}{{this.addressCity}}{{this.addressState}}{{this.addressPostal}}</td>
-       <td></td>
-      <td>{{this.status}}</td>
-      <td>{{this.department}}</td>
-       <td>{{this.hireDate}}</td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Employee Num </th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Manager ID</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Hired On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each employees}}
+                <tr>
+                    <th scope="row">{{this.employeeNum}}</th>
+                    <td><a href="/employee/{{this.employeeNum}}"> {{this.firstName}} {{this.lastName}}</a></td>
+                    <td><a href="mailto: {{this.email}}">{{this.email}}</a></td>
+                    <td>{{this.addressStreet}}{{this.addressCity}}{{this.addressState}}{{this.addressPostal}}</td>
+                    <td><a href="/employees?manager={{this.employeeManagerNum}}">{{this.employeeManagerNum}}</a> </td>
+                    <td> <a href="/employees?status={{this.status}}">{{this.status}}</a></td>
+                    <td><a href="/employees?department={{this.department}}">{{this.department}}</a></td>
+                    <td>{{this.hireDate}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
 
 
 
@@ -59,3 +60,13 @@
 
     </div>
 </div>
+
+
+{{!-- <td>
+    {{#if {{this.status}}=='Full Time'
+    <a href="/employees?status='Full Time'">{{this.status}}</a>
+    {{else}}
+    <a href="/employees?status='Part Time'">{{this.status}}</a>
+
+    {{/if}}
+</td> --}}
