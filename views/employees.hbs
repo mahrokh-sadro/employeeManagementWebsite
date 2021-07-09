@@ -1,0 +1,18 @@
+{{!-- Replace the <p> element (containing the TODO message) with code to iterate over eachemployeeand simply render their
+    first and last names(you may assume that there will be an "employees" array (see below). •Once this is done, update
+    yourGET"/employees" route according to the following specificationoEvery time you would have usedres.json(data),
+    modify it to instead useres.render("employees", {employees: data})oEvery time you would have usedres.json({message:
+    "no results"}) -ie: when the promise has an error(ie in .catch()), modify instead to useres.render("employees",
+    {message: "no results"}) --}}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Employees</h2>
+        <hr />
+
+    {{#each employees}}
+      {{this.firstName}} {{this.lastName}};
+    {{/each}};
+    
+    </div>
+</div>
