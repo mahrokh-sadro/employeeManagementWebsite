@@ -17,7 +17,7 @@
                 </div>
 
 
-
+                {{!-- first row --}}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group"><label for="firstName">Email:</label><input class="form-control"
@@ -31,7 +31,7 @@
                 </div>
 
 
-
+                {{!-- second row --}}
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group"><label for="firstName">Address (Street):</label><input
@@ -57,7 +57,7 @@
 
 
 
-
+                {{!-- third row --}}
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group"><label for="firstName">Manager:</label><input class="form-control"
@@ -68,9 +68,15 @@
                                 class="form-control" id="lastName" name="lastName" type="text"
                                 value="{{ employee.lastName}}" /></div>
                     </div>
+
+
+
                     <div class="col-md-3">
-                        <div class="form-group"><label for="lastName">Department</label><input class="form-control" <div
-                                class="col-md-3 form-check form-check-inline">
+
+                        <div class="form-group"><label for="lastName">Status:</label></div>
+
+
+                        <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                 value="option1">
                             <label class="form-check-label" for="inlineRadio1">1</label>
@@ -80,19 +86,42 @@
                                 value="option2">
                             <label class="form-check-label" for="inlineRadio2">2</label>
                         </div>
+
+
+
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group"><label for="lastName">Department</label><input class="form-control"
-                                id="lastName" name="lastName" type="text" value="{{ employee.lastName}}" /></div>
+
+
+
+
+
+                    <div>
+                        <div class="col-md-3">
+
+                            <label for="inputState">Department</label>
+                            <select id="inputState" class="form-control">
+                                <option selected>Creative Services</option>
+                                <option>Product Development</option>
+                                <option>Marketing</option>
+                                <option>Strategic Planning</option>
+                                <option>Accounting</option>
+                                <option>Human Resources</option>
+                                <option>Quality Analysis</option>
+                            </select>
+                        </div>
                     </div>
+
                 </div>
 
+                {{!-- forth row --}}
 
-
-
-
-
-
+                {{!-- second row --}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group"><label for="firstName">Hire Date</label><input class="form-control"
+                                id="firstName" name="firstName" type="text" value="{{ employee.firstName}}" /></div>
+                    </div>
+                </div>
 
             </fieldset>
             <hr />
