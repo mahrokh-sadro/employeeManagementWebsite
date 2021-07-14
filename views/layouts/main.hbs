@@ -26,27 +26,19 @@
         </button>
         <span class="navbar-brand" href="#">WEB322 - Student Name</span>
       </div>
-      {{#navLink "/about"}}About{{/navLink}}
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
-          {{!-- {{#navLink "/"}}Home{{/navLink}} --}}
-          <li><a href="/about">About</a></li>
-          {{!-- {{#navLink "/About"}}About{{/navLink}} --}}
-          {{!-- <li><a href="/employees/add">Add Employee</a></li> --}}
+          {{!-- <li class="active"><a href="/">Home</a></li> --}}
+          {{#navLink "/"}}Home{{/navLink}}
+          {{#navLink "/About"}}About{{/navLink}}
           {{#navLink "/employees/add"}}Add Employee{{/navLink}}
-          {{!-- <li><a href="/images/add">Add Image</a></li> --}}
           {{#navLink "/images/add"}}Add Image{{/navLink}}
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          {{!-- <li><a href="/images">Images</a></li> --}}
           {{#navLink "/images"}}Images{{/navLink}}
-          {{!-- <li><a href="/employees">Employees</a></li> --}}
           {{#navLink "/employees"}}Employees{{/navLink}}
-          {{!-- <li><a href="/managers">Managers</a></li> --}}
           {{#navLink "/managers"}}Managers{{/navLink}}
-          {{!-- <li><a href="/departments">Departments</a></li> --}}
           {{#navLink "/departments"}}Departments{{/navLink}}
         </ul>
       </div><!-- /.navbar-collapse -->

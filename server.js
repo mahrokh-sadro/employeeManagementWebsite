@@ -70,7 +70,21 @@ app.use(function (req, res, next) {
 
 
 
+// app.post("/employee/update", function(req,res) {
+//     dataService.updateEmployee(req.body).then(function(data) {
+//       console.log(req.body);
+//       res.redirect("/employees");
+//     }).catch(function(err) {
+//       console.log(err);
+//     })
+//   });
 
+app.post("/employee/update", (req, res) => {
+
+    data.updateEmployee(req.body)
+    .then(res.redirect('/employees'))
+ });
+ 
 app.get("/", (req, res) => {
     res.render('home');
 });
@@ -128,15 +142,19 @@ app.get("/employees", (req, res) => {
     }
 });
 
-app.get("/employee/:empNum", (req, res) => {/////meaning???
+
+
+app.get("/employee/:empNum", (req, res) => {
     data.getEmployeeByNum(req.params.empNum).then((data) => {
-      //  res.json(data);//???????????
-      res.render("employee", {employees: data})//wats ???
+    //    res.json(data);
+     res.render("employee", { employee: data });
     }).catch((err) => {
-       // res.json({ message: "no results" });
-       res.render("employee", {message: "no results"});
+    //    res.json({message:"no results"});
+       res.render("employee",{message:"no results"}); 
     });
 });
+
+
 
 app.get("/managers", (req, res) => {
     data.getManagers().then((data) => {
@@ -175,3 +193,15 @@ data.initialize().then(function () {
 }).catch(function (err) {
     console.log("unable to start server: " + err);
 });
+
+
+
+
+
+
+
+
+
+
+
+
