@@ -5,6 +5,7 @@ const data = require("./data-service.js");
 const bodyParser = require('body-parser');
 const fs = require("fs");
 const multer = require("multer");
+const { resolve } = require("path");
 const app = express();
 app.engine('.hbs', exphbs({
     extname: '.hbs',
@@ -79,12 +80,15 @@ app.use(function (req, res, next) {
 //     })
 //   });
 
-app.post("/employee/update", (req, res) => {
 
+
+
+app.post("/employee/update", (req, res) => {
+   
     data.updateEmployee(req.body)
     .then(res.redirect('/employees'))
  });
- 
+
 app.get("/", (req, res) => {
     res.render('home');
 });
@@ -103,10 +107,11 @@ app.get("/employees/add", (req, res) => {
    // res.sendFile(path.join(__dirname, "/views/addEmployee.hbs"));
    res.render('addEmployee');
 });
-
+//whers array of images???
 app.get("/images", (req, res) => {
     fs.readdir("./public/images/uploaded", function (err, items) {
-        res.json({ images: items });
+       // res.json({ images: items });
+       res.render("images", {images: items});
     });
 });
 

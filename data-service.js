@@ -146,3 +146,42 @@ module.exports.getDepartments = function(){
     resolve(departments);
    });
 }
+
+// module.exports.updateEmployee(employeeData){
+//     return new Promise(function (resolve, reject){
+//         for(let i=0;data.employees;i++){
+           
+//             if(data.employees[i].employeeNum==employeeData.employeeNum)
+//            // console.log(req.body);
+//             console.log(data.employees[i]);
+    
+//             data.employees[i]==employeeData;
+//           //  console.log( employees[i]);
+    
+//             resolve();
+//         }
+//     })
+//     }
+
+module.exports.updateEmployee = function(employeeData){
+    return new Promise((resolve,reject)=>{      
+        // let found = employees.find(e => e.employeeNum==employeeData.employeeNum)
+        // console.log(found)
+        // if (!found) {
+
+            for(let i=0;employees;i++){
+           
+                if(employees[i].employeeNum==employeeData.employeeNum){
+            
+               
+        
+                employees[i]=employeeData;
+             
+               
+            }
+            resolve();
+        }
+    })
+}
+
+    

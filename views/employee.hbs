@@ -1,22 +1,22 @@
 <div class="row">
     <div class="col-md-12">
-        <h2>{{employees.firstName}} {{ employees.lastName}} -Employee: {{ employees.employeeNum}}</h2>
+        <h2>{{employee.firstName}} {{ employee.lastName}} -Employee: {{ employee.employeeNum}}</h2>
         <hr />
         <form method="post" action="/employee/update">
 
             <input class="form-control" id="employeeNum" name="employeeNum" type="hidden"
-                value="{{ employees.employeeNum}}" />
+                value="{{ employee.employeeNum}}" />
 
             <fieldset>
                 <legend>Personal Information</legend>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group"><label for="firstName">First Name:</label><input class="form-control"
-                                id="firstName" name="firstName" type="text" value="{{ employees.firstName}}" /></div>
+                                id="firstName" name="firstName" type="text" value="{{ employee.firstName}}" /></div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group"><label for="lastName">Last Name:</label><input class="form-control"
-                                id="lastName" name="lastName" type="text" value="{{ employees.lastName}}" /></div>
+                                id="lastName" name="lastName" type="text" value="{{ employee.lastName}}" /></div>
                     </div>
                 </div>
 
@@ -168,9 +168,9 @@
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
                                 value="option2" checked>
                             <label class="form-check-label" for="inlineRadio2">Part Time</label>
-                            {{/equal}}
+                          
 
-                            {{#equal employees.status "Part Time" }}
+                            {{else}}
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                 value="option1" checked>
                             <label class="form-check-label" for="inlineRadio1">Full Time</label>
