@@ -69,20 +69,6 @@ app.use(function (req, res, next) {
 });
 
 
-
-
-// app.post("/employee/update", function(req,res) {
-//     dataService.updateEmployee(req.body).then(function(data) {
-//       console.log(req.body);
-//       res.redirect("/employees");
-//     }).catch(function(err) {
-//       console.log(err);
-//     })
-//   });
-
-
-
-
 app.post("/employee/update", (req, res) => {
    
     data.updateEmployee(req.body)

@@ -21,22 +21,6 @@
                 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group"><label for="email">Email:</label><input class="form-control" id="email"
@@ -47,30 +31,6 @@
                                 id="SSN" name="SSN" type="text" value="{{ employee.SSN}}" readonly /></div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <div class="row">
                     <div class="col-md-3">
@@ -95,33 +55,11 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group"><label for="firstName">Manager:</label>
                             {{#if employee.isManager}}
-                            <input class="form-control" id="isManager" name="isManager" type="checkbox" value=""
+                            <input class="form-control" id="isManager" name="isManager" type="checkbox" value="isManager"
                                 checked />
                             {{else}}
                             <input class="form-control" id="isManager" name="isManager" type="checkbox" value="" />
@@ -132,33 +70,13 @@
                     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <div class="col-md-3">
                         <div class="form-group"><label for="lastName">Employee's Manager Number:</label><input
                                 class="form-control" id="lastName" name="employeeManagerNum" type="text" value="" />
                         </div>
                     </div>
 
-
-
-
-
-
-                    <div class="col-md-3">
+                 <div class="col-md-3">
                         <div class="form-group">
                             <label>Status:</label><br />
                             <label class="checkbox-inline">
@@ -173,26 +91,8 @@
                     </div>
 
 
-
-
-
-
                     <div>
                         <div class="col-md-3">
-                            {{!--
-                            hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee--}}
-                            {{!-- <label for="department">Department</label>
-                            <select id="department" name="department" class="form-control">
-                                {{#equal employees.department "1" }}
-                                <option selected>Creative Services</option>
-                                <option>Product Development</option>
-                                <option>Marketing</option>
-                                <option>Strategic Planning</option>
-                                <option>Accounting</option>
-                                <option>Human Resources</option>
-                                <option>Quality Analysis</option>
-                                {{/equal}}
-                            </select> --}}
                             <label for="department">Department</label>
                             <select class="form-control" name="department" id="department">
                                 <option value="1" {{#equal employee.department "1" }}selected{{/equal}}>Creative
@@ -214,20 +114,6 @@
                     </div>
 
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <div class="row">
                     <div class="col-md-6">
