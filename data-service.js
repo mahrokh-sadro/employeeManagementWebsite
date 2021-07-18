@@ -1,3 +1,18 @@
+const Sequelize =require('sequelize');
+
+var sequelize = new Sequelize(
+    'dc34jltbr39qoa', 
+    'okguwxhpdjxjqu',
+     'a00be4da5f5fc95358c71cfc390b9c3b95e15b68228f06bfb8dabdd2063f8bd6', 
+     {
+        host: 'ec2-52-6-77-239.compute-1.amazonaws.com',
+        dialect: 'postgres',
+        port: 5432,
+        dialectOptions: {
+            ssl: { rejectUnauthorized: false }
+    },
+    query: { raw: true }
+});
 
 
 module.exports.initialize = function () {
