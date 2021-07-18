@@ -1,5 +1,6 @@
 const Sequelize =require('sequelize');
 
+// set up sequelize to point to our postgres database
 var sequelize = new Sequelize(
     'dc34jltbr39qoa', 
     'okguwxhpdjxjqu',
@@ -13,6 +14,34 @@ var sequelize = new Sequelize(
     },
     query: { raw: true }
 });
+
+const Employee=sequelize.define(
+    'Employee',
+    {
+        employeeNum:{
+            type:Sequelize.INTEGER,
+            primaryKey:true,
+            autoIncrement:true
+        },
+        firstName:Sequelize.STRING,
+        lastName:Sequelize.STRING,
+        email:Sequelize.STRING,
+        SSN:Sequelize.STRING,
+        addressStreet:Sequelize.STRING,
+        addressCity:Sequelize.STRING,
+        addressState:Sequelize.STRING,
+        addressPostal:Sequelize.STRING,
+        maritalStatus:Sequelize.STRING,
+        isManager:Sequelize.BOOLEAN,
+        employeeManagerNum:Sequelize.INTEGER,
+        status:Sequelize.STRING,
+        hireDate:Sequelize.STRING
+    }
+);
+
+
+
+
 
 
 module.exports.initialize = function () {
