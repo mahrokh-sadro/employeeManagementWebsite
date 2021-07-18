@@ -1,4 +1,4 @@
-/* site.css */
+/* site.css
 
 
 /* ---- reset ---- */
@@ -66,4 +66,17 @@ canvas {
 }
 
 
-< /style>
+.loginform{
+    /* background-color: rgba(255, 255, 255, .15);   */
+    backdrop-filter: blur(10px);
+    position: absolute;
+    left:450px;
+    top:200px; 
+    width:450px;
+   /* // height:990px;  */
+    /* padding-right: 320px; */
+    /* font-family: Helvetica, Arial, sans-serif;
+    font-weight: bolder;
+    border-radius:3%; */
+   
+  }
