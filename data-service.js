@@ -85,12 +85,12 @@ back to server.js that the operation was a success and to provide the data.•If
  at any time during this process, invoke the rejectmethod and pass a meaningful message, ie: "no
   results returned".
 */
-module.exports.getAllEmployees =  ()=> {//when then has argument??
+module.exports.getAllEmployees = () => {//when then has argument??
     return new Promise((resolve, reject) => {
         Employee.findAll()
             .then(data => resolve(data))
-            .catch(err=>reject('no results returned'));
-       
+            .catch(err => reject('no results returned'));
+
     });
 }
 
@@ -110,24 +110,43 @@ module.exports.getEmployeeByNum = function (num) {
 };
 /*
 This function will invoke the Employee.findAll()function and filter the results by "status" 
-(using the value passed to the function -ie: "Full Time" or "Part Time"•If the Employee.
+(using the value passed to the function -ie: "Full Time" or "Part Time"•
+If the Employee.
 findAll()operation resolved successfully, invoke the resolve method for the promise (with the data)
  to communicate back to server.js that the operation was a success and to provide the data.•If
   there was an error at any time during this process, invoke the rejectmethod and pass a meaningful
    message, ie: "no results returned".
 */
-module.exports.getEmployeesByStatus =  (status)=> {
-    return new Promise( (resolve, reject)=> {
+module.exports.getEmployeesByStatus = status => {
+    return new Promise((resolve, reject) => {
+        Employee.findAll({
+            where: {
+                status: status
 
-        
+            }
+        }).then(data=>resolve(data))
+        .catch(err=>reject('no results returned'))
+
     });
 };
+/*
+This function will invoke the Employee.findAll()function and filter the results by "department" 
+(using the value passed to the function -ie: 1 or 2 or 3 ... etc
+•If the Employee.findAll()operation resolved successfully, invoke the resolve method for the promise
+ (with the data) to communicate back to server.jsthat the operation was a success and to provide 
+ the data.•If there was an error at any time during this process, invoke the rejectmethod and pass
+  a meaningful message, ie: "no results returned
+*/
 
-
-module.exports.getEmployeesByDepartment = function (department) {
-    return new Promise(function (resolve, reject) {
-
-        reject();
+module.exports.getEmployeesByDepartment = department=> {
+    return new Promise( (resolve, reject)=> {
+        Employee.findAll({
+            where:{
+                departmentId:department
+            }
+        }).then(data=>resolve(data))
+        .catch(err=>reject('no results returned'));
+  
     });
 };
 
