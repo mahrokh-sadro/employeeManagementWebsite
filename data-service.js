@@ -85,7 +85,7 @@ back to server.js that the operation was a success and to provide the data.•If
  at any time during this process, invoke the rejectmethod and pass a meaningful message, ie: "no
   results returned".
 */
-module.exports.getAllEmployees = function () {//when then has argument??
+module.exports.getAllEmployees =  ()=> {//when then has argument??
     return new Promise((resolve, reject) => {
         Employee.findAll()
             .then(data => resolve(data))
@@ -116,7 +116,7 @@ findAll()operation resolved successfully, invoke the resolve method for the prom
   there was an error at any time during this process, invoke the rejectmethod and pass a meaningful
    message, ie: "no results returned".
 */
-module.exports.getEmployeesByStatus = function (status) {
+module.exports.getEmployeesByStatus =  (status)=> {
     return new Promise( (resolve, reject)=> {
 
         
