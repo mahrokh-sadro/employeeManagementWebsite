@@ -74,7 +74,7 @@ module.exports.initialize = function () {//wat does this do again???how to test
         sequelize.sync()
             .then(Employee => { resolve('Employee model synced'); })
             .then(Department => { resolve('Employee model synced'); })
-            .catch(err => { reject('unable to sync the database'); });
+            .catch(err => reject('unable to sync the database'));
 
     });
 };
@@ -93,19 +93,39 @@ module.exports.getAllEmployees = () => {//when then has argument??
 
     });
 }
+/*
 
-module.exports.addEmployee = function (employeeData) {
+*/
+module.exports.addEmployee =  employeeData=> {
 
-    return new Promise(function (resolve, reject) {
-
-        reject();
+    return new Promise((resolve, reject)=> {
+        employeeData.isManager = (employeeData.isManager) ? true : false;
+        for (property in employeeData){
+            if(employeeData.property=="") employeeData.property=null;
+        }
+        Employee.create()
+        .then(()=>resolve())
+        .catch(err=>reject('unable to create employee'));
     });
 };
-
-module.exports.getEmployeeByNum = function (num) {
-    return new Promise(function (resolve, reject) {
-
-        reject();
+/*
+This function will invoke the Employee.findAll()function and filter the results by "employeeNum"
+ (using the value passed to the function -ie: 1 or 2 or 3 ... etc
+    •If the Employee.findAll()operation
+  resolved successfully, invoke the resolve method for the promise (with the data[0], ie: only 
+    providethe first object) to communicate back to server.js that the operation was a success and
+     to provide the data.•If there was an error at any time during this process, invoke the 
+     rejectmethod and pass a meaningful message, ie: "no results returned".
+*/
+module.exports.getEmployeeByNum = num=> {
+    return new Promise( (resolve, reject)=> {
+        Employee.findAll({
+            where:{
+                employeeNum:num
+            }
+        }).then(data=>resolve(data[0]))//why???????????????????????????????????????
+        .catch(err=>reject('no results returned')); //wat err?
+        
     });
 };
 /*
@@ -138,7 +158,7 @@ This function will invoke the Employee.findAll()function and filter the results 
   a meaningful message, ie: "no results returned
 */
 
-module.exports.getEmployeesByDepartment = department=> {
+module.exports.getEmployeesByDepartment = department=> {//how to test each 1 here??
     return new Promise( (resolve, reject)=> {
         Employee.findAll({
             where:{
@@ -149,10 +169,22 @@ module.exports.getEmployeesByDepartment = department=> {
   
     });
 };
-
-module.exports.getEmployeesByManager = function (manager) {
-    return new Promise(function (resolve, reject) {
-        reject();
+/*
+This function will invoke the Employee.findAll()function and filter the results by
+ "employeeManagerNum" (using the value passed to the function -ie: 1 or 2 or 3 ... etc•
+    If the Employee.findAll()operation resolved successfully, invoke the resolve method for the
+     promise (with the data) to communicate back to server.js that the operation was a success
+      and to provide the data.•If there was an error at any time during this process,
+      invoke the rejectmethod and pass a meaningful message, ie: "no results returned".
+*/
+module.exports.getEmployeesByManager =  manager=> {
+    return new Promise( (resolve, reject)=> {
+        Employee.findAll({
+            where:{
+                employeeManagerNum:manager
+            }
+        }).then(data=>resolve(data))
+        .catch(err=>reject('no results returned'))
     });
 };
 
@@ -170,10 +202,16 @@ module.exports.getDepartments = function () {
 
 
 
-module.exports.updateEmployee = function (employeeData) {
-    return new Promise(function (resolve, reject) {
-
-        reject();
+module.exports.updateEmployee = employeeData=> {
+    return new Promise((resolve, reject)=> {
+        employeeData.isManager=(employeeData.isManager)?true:false;
+        for(property in employeeData){
+            if(employeeData.property=="") employeeData.property=null;
+        }
+        Employee.update()
+        .then(()=>resolve())
+        .catch(err=>reject('unable to updateemployee'))
+        
     });
 };
 
