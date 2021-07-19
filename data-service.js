@@ -228,16 +228,35 @@ module.exports.addDepartment = departmentData => {
 
 };
 
-module.exports.updateDepartment=departmentData=>{
-return new Promise((resolve,reject)=>{
-for(property in departmentData){
-    if(departmentData.property=="") departmentData.property=null;
+module.exports.updateDepartment = departmentData => {
+    return new Promise((resolve, reject) => {
+        for (property in departmentData) {
+            if (departmentData.property == "") departmentData.property = null;//why
+        }
+        Department.update()
+            .then(() => resolve())
+            .catch(err => reject('no results returned'));
+
+    });
 }
-Department.update()
-.then(()=>resolve())
-.catch(err=>reject('no results returned'));
 
-});
+module.exports.getDepartmentById = id => {
+    return new Promise((resolve, reject) => {
+        Department.findAll({
+            where: {
+                departmentId: id
+            }
+        }).then(data => resolve(data[0]))
+            .catch(err => resolve('no results returned'));
 
+    });
 
+}
+
+module.exports.deleteDepartmentById = id => {
+    return new Promise((resolve, reject) => {
+        Department.destroy()
+            .then(() => resolve())
+            .catch(err => reject('was rejected'));
+    })
 }
