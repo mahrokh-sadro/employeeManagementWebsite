@@ -58,7 +58,7 @@ This will ensure that our Employee model gets a "department" column that will ac
 */
 //wheres department?????
 Department.hasMany(Employee, { foreign: 'department' });
-
+///////////////////////////////////////////////////////////////////////////////////////my department is buggy
 /*
 
 This function will invoke the sequelize.sync()function, which will ensure that we can connected 
@@ -69,7 +69,7 @@ to the DB and that our Employee and Department models are represented in the dat
   ie: reject("unable to sync the database")
 
 */
-module.exports.initialize = function () {//wat does this do again???how to test
+module.exports.initialize = () => {//wat does this do again???how to test
     return new Promise((resolve, reject) => {
         sequelize.sync()
             .then(Employee => { resolve('Employee model synced'); })
@@ -96,16 +96,16 @@ module.exports.getAllEmployees = () => {//when then has argument??
 /*
 
 */
-module.exports.addEmployee =  employeeData=> {
+module.exports.addEmployee = employeeData => {
 
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve, reject) => {
         employeeData.isManager = (employeeData.isManager) ? true : false;
-        for (property in employeeData){
-            if(employeeData.property=="") employeeData.property=null;
+        for (property in employeeData) {
+            if (employeeData.property == "") employeeData.property = null;
         }
         Employee.create()
-        .then(()=>resolve())
-        .catch(err=>reject('unable to create employee'));
+            .then(() => resolve())
+            .catch(err => reject('unable to create employee'));
     });
 };
 /*
@@ -117,15 +117,15 @@ This function will invoke the Employee.findAll()function and filter the results 
      to provide the data.•If there was an error at any time during this process, invoke the 
      rejectmethod and pass a meaningful message, ie: "no results returned".
 */
-module.exports.getEmployeeByNum = num=> {
-    return new Promise( (resolve, reject)=> {
+module.exports.getEmployeeByNum = num => {
+    return new Promise((resolve, reject) => {
         Employee.findAll({
-            where:{
-                employeeNum:num
+            where: {
+                employeeNum: num
             }
-        }).then(data=>resolve(data[0]))//why???????????????????????????????????????
-        .catch(err=>reject('no results returned')); //wat err?
-        
+        }).then(data => resolve(data[0]))//why???????????????????????????????????????
+            .catch(err => reject('no results returned')); //wat err?
+
     });
 };
 /*
@@ -144,8 +144,8 @@ module.exports.getEmployeesByStatus = status => {
                 status: status
 
             }
-        }).then(data=>resolve(data))
-        .catch(err=>reject('no results returned'))
+        }).then(data => resolve(data))
+            .catch(err => reject('no results returned'))
 
     });
 };
@@ -158,15 +158,15 @@ This function will invoke the Employee.findAll()function and filter the results 
   a meaningful message, ie: "no results returned
 */
 
-module.exports.getEmployeesByDepartment = department=> {//how to test each 1 here??
-    return new Promise( (resolve, reject)=> {
+module.exports.getEmployeesByDepartment = department => {//how to test each 1 here??
+    return new Promise((resolve, reject) => {
         Employee.findAll({
-            where:{
-                departmentId:department
+            where: {
+                departmentId: department
             }
-        }).then(data=>resolve(data))
-        .catch(err=>reject('no results returned'));
-  
+        }).then(data => resolve(data))
+            .catch(err => reject('no results returned'));
+
     });
 };
 /*
@@ -177,14 +177,14 @@ This function will invoke the Employee.findAll()function and filter the results 
       and to provide the data.•If there was an error at any time during this process,
       invoke the rejectmethod and pass a meaningful message, ie: "no results returned".
 */
-module.exports.getEmployeesByManager =  manager=> {
-    return new Promise( (resolve, reject)=> {
+module.exports.getEmployeesByManager = manager => {
+    return new Promise((resolve, reject) => {
         Employee.findAll({
-            where:{
-                employeeManagerNum:manager
+            where: {
+                employeeManagerNum: manager
             }
-        }).then(data=>resolve(data))
-        .catch(err=>reject('no results returned'))
+        }).then(data => resolve(data))
+            .catch(err => reject('no results returned'))
     });
 };
 
@@ -202,16 +202,42 @@ module.exports.getDepartments = function () {
 
 
 
-module.exports.updateEmployee = employeeData=> {
-    return new Promise((resolve, reject)=> {
-        employeeData.isManager=(employeeData.isManager)?true:false;
-        for(property in employeeData){
-            if(employeeData.property=="") employeeData.property=null;
+module.exports.updateEmployee = employeeData => {
+    return new Promise((resolve, reject) => {
+        employeeData.isManager = (employeeData.isManager) ? true : false;
+        for (property in employeeData) {
+            if (employeeData.property == "") employeeData.property = null;
         }
         Employee.update()
-        .then(()=>resolve())
-        .catch(err=>reject('unable to updateemployee'))
-        
+            .then(() => resolve())
+            .catch(err => reject('unable to updateemployee'))
+
     });
 };
 
+
+module.exports.addDepartment = departmentData => {
+    return new Promise((resolve, reject) => {//y we need this?
+        for (property in departmentData) {
+            if (departmentData.property == "") departmentData.property = null;
+        }
+        Department.create()
+            .then(() => resolve())
+            .catch(err => resolve('unable to create department'));
+    });
+
+};
+
+module.exports.updateDepartment=departmentData=>{
+return new Promise((resolve,reject)=>{
+for(property in departmentData){
+    if(departmentData.property=="") departmentData.property=null;
+}
+Department.update()
+.then(()=>resolve())
+.catch(err=>reject('no results returned'));
+
+});
+
+
+}

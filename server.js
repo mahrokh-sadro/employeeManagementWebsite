@@ -82,10 +82,10 @@ app.use(function (req, res, next) {
 
 
 app.post("/employee/update", (req, res) => {
-   
+
     data.updateEmployee(req.body)
-    .then(res.redirect('/employees'))
- });
+        .then(res.redirect('/employees'))
+});
 
 app.get("/", (req, res) => {
     res.render('home');
@@ -97,61 +97,61 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/images/add", (req, res) => {
-   // res.sendFile(path.join(__dirname, "/views/addImage.hbs"));
-   res.render('addImage');
+    // res.sendFile(path.join(__dirname, "/views/addImage.hbs"));
+    res.render('addImage');
 });
 
 app.get("/employees/add", (req, res) => {
-   // res.sendFile(path.join(__dirname, "/views/addEmployee.hbs"));
-   res.render('addEmployee');
+    // res.sendFile(path.join(__dirname, "/views/addEmployee.hbs"));
+    res.render('addEmployee');
 });
 //whers array of images???
 app.get("/images", (req, res) => {
     fs.readdir("./public/images/uploaded", function (err, items) {
-       // res.json({ images: items });
-       res.render("images", {images: items});
+        // res.json({ images: items });
+        res.render("images", { images: items });
     });
 });
 
 app.get("/employees", (req, res) => {
     if (req.query.status) {
         data.getEmployeesByStatus(req.query.status).then((data) => {
-          
-           // if(data.length>0) 
-            res.render("employees", {employees: data})
-        //  else res.render("employees",{message:"no results"})
+
+            // if(data.length>0) 
+            res.render("employees", { employees: data })
+            //  else res.render("employees",{message:"no results"})
 
         }).catch((err) => {
-            res.render("employees", {message: "no results"});
+            res.render("employees", { message: "no results" });
         });
     } else if (req.query.department) {
         data.getEmployeesByDepartment(req.query.department).then((data) => {
 
-           // if(data.length>0)
-             res.render("employees", {employees: data})
-          //  else res.render("employees",{message:"no results"})
+            // if(data.length>0)
+            res.render("employees", { employees: data })
+            //  else res.render("employees",{message:"no results"})
 
         }).catch((err) => {
-            res.render("employees", {message: "no results"});
+            res.render("employees", { message: "no results" });
         });
     } else if (req.query.manager) {
         data.getEmployeesByManager(req.query.manager).then((data) => {
 
-          //  if(data.length>0) 
-             res.render("employees", {employees: data})
-          //  else res.render("employees",{message:"no results"})
+            //  if(data.length>0) 
+            res.render("employees", { employees: data })
+            //  else res.render("employees",{message:"no results"})
 
         }).catch((err) => {
-            res.render("employees", {message: "no results"});
+            res.render("employees", { message: "no results" });
         });
     } else {
         data.getAllEmployees().then((data) => {//we need to use  if(data.length>0) just here?
 
-            if(data.length>0)  res.render("employees", {employees: data})
-            else res.render("employees",{message:"no results"})
+            if (data.length > 0) res.render("employees", { employees: data })
+            else res.render("employees", { message: "no results" })
 
         }).catch((err) => {
-            res.render("employees", {message: "no results"});
+            res.render("employees", { message: "no results" });
         });
     }
 });
@@ -160,11 +160,11 @@ app.get("/employees", (req, res) => {
 
 app.get("/employee/:empNum", (req, res) => {
     data.getEmployeeByNum(req.params.empNum).then((data) => {
-    //    res.json(data);
-     res.render("employee", { employee: data });
+        //    res.json(data);
+        res.render("employee", { employee: data });
     }).catch((err) => {
-    //    res.json({message:"no results"});
-       res.render("employee",{message:"no results"}); 
+        //    res.json({message:"no results"});
+        res.render("employee", { message: "no results" }); //whers this msg?
     });
 });
 
@@ -172,15 +172,16 @@ app.get("/employee/:empNum", (req, res) => {
 
 app.get("/managers", (req, res) => {
     data.getManagers().then((data) => {
-       // res.json(data);
-       res.render("employees", {employees: data})
+        // res.json(data);
+        res.render("employees", { employees: data })
     });
 });
 
 app.get("/departments", (req, res) => {
     data.getDepartments().then((data) => {
-       // res.json(data);
-       res.render("departments", {departments: data});
+
+        if (data.length > 0) res.render("departments", { departments: data });
+        else res.render("employees", { message: "no results" });
     });
 });
 
