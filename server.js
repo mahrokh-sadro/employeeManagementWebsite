@@ -81,10 +81,34 @@ app.use(function (req, res, next) {
 });
 
 
+
+
+
+
+
+app.post("/departments/add", (req, res) => {
+    data.addDepartment(req.body) //how does it know req body name,name?
+        .then(() => {
+            res.redirect('/departments');
+        });
+});
+
+
 app.post("/employee/update", (req, res) => {
 
     data.updateEmployee(req.body)
         .then(res.redirect('/employees'))
+});
+
+app.post("/employees/add", (req, res) => {
+    data.addEmployee(req.body)
+        .then(() => {
+            res.redirect("/employees");
+        });
+});
+
+app.post("/images/add", upload.single("imageFile"), (req, res) => {
+    res.redirect("/images");
 });
 
 app.get("/", (req, res) => {
@@ -185,16 +209,15 @@ app.get("/departments", (req, res) => {
     });
 });
 
-
-app.post("/employees/add", (req, res) => {
-    data.addEmployee(req.body).then(() => {
-        res.redirect("/employees");
-    });
+app.get("/departments/add", (req, res) => {
+    data.addDepartment(req, body)
+        .then(() => {
+            res.render("/departments");
+        });
 });
 
-app.post("/images/add", upload.single("imageFile"), (req, res) => {
-    res.redirect("/images");
-});
+
+
 
 
 app.use((req, res) => {
