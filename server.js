@@ -18,6 +18,7 @@ const bodyParser = require('body-parser');
 const fs = require("fs");
 const multer = require("multer");
 const { resolve } = require("path");
+const { rejects } = require("assert");
 const app = express();
 app.engine('.hbs', exphbs({
     extname: '.hbs',
@@ -84,7 +85,12 @@ app.use(function (req, res, next) {
 
 
 
-
+app.post("/department/update", (req, res) => {
+    data.updateDepartment(req.body)
+        .then(() => {
+            res.redirect('/')
+        });
+});
 
 app.post("/departments/add", (req, res) => {
     data.addDepartment(req.body) //how does it know req body name,name?
@@ -111,6 +117,8 @@ app.post("/images/add", upload.single("imageFile"), (req, res) => {
     res.redirect("/images");
 });
 
+
+
 app.get("/", (req, res) => {
     res.render('home');
 });
@@ -121,18 +129,15 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/images/add", (req, res) => {
-    // res.sendFile(path.join(__dirname, "/views/addImage.hbs"));
     res.render('addImage');
 });
 
 app.get("/employees/add", (req, res) => {
-    // res.sendFile(path.join(__dirname, "/views/addEmployee.hbs"));
     res.render('addEmployee');
 });
 //whers array of images???
 app.get("/images", (req, res) => {
     fs.readdir("./public/images/uploaded", function (err, items) {
-        // res.json({ images: items });
         res.render("images", { images: items });
     });
 });
@@ -141,9 +146,7 @@ app.get("/employees", (req, res) => {
     if (req.query.status) {
         data.getEmployeesByStatus(req.query.status).then((data) => {
 
-            // if(data.length>0) 
             res.render("employees", { employees: data })
-            //  else res.render("employees",{message:"no results"})
 
         }).catch((err) => {
             res.render("employees", { message: "no results" });
@@ -151,9 +154,7 @@ app.get("/employees", (req, res) => {
     } else if (req.query.department) {
         data.getEmployeesByDepartment(req.query.department).then((data) => {
 
-            // if(data.length>0)
             res.render("employees", { employees: data })
-            //  else res.render("employees",{message:"no results"})
 
         }).catch((err) => {
             res.render("employees", { message: "no results" });
@@ -183,20 +184,18 @@ app.get("/employees", (req, res) => {
 
 
 app.get("/employee/:empNum", (req, res) => {
-    data.getEmployeeByNum(req.params.empNum).then((data) => {
-        //    res.json(data);
-        res.render("employee", { employee: data });
-    }).catch((err) => {
-        //    res.json({message:"no results"});
-        res.render("employee", { message: "no results" }); //whers this msg?
-    });
+    data.getEmployeeByNum(req.params.empNum)
+        .then((data) => {
+            res.render("employee", { employee: data });
+        }).catch((err) => {
+            res.render("employee", { message: "no results" }); //whers this msg?
+        });
 });
 
 
 
 app.get("/managers", (req, res) => {
     data.getManagers().then((data) => {
-        // res.json(data);
         res.render("employees", { employees: data })
     });
 });
@@ -217,6 +216,26 @@ app.get("/departments/add", (req, res) => {
 });
 
 
+app.get("/department/:departmentId", (req, res) => {
+    data.getDepartmentById(req, params, departmentId)
+        .then(data => {
+            if (data.lenngth > 0) resolve(data);
+            else res.status(404).send('DepartmentNot Found');
+        }).catch(err => res.status(404).send("DepartmentNot Found"));
+
+});
+/*
+ThisGETroutewill invoke your newly created deleteDepartmentById(id)data-service method.  If the function
+ resolved successfully, redirect the user to the "/departments"view.  If the operation encountered an error, 
+ return a status code of 500and the plain text: "Unable to Remove Department/ Departmentnot found)"
+*/
+app.get("/departments/delete/:departmentId", (req, res) => {
+    data.deleteDepartmentById(req, params.departmentId)//if else or catch???
+        .then(data => {
+            if (data.lenngth > 0) res.redirect('/departments');
+            else res.status(500).send('Unable to Remove Department/ Departmentnot found');
+        }).catch(err => res.status(500).send("Unable to Remove Department/ Departmentnot found"));
+});
 
 
 
@@ -235,11 +254,5 @@ data.initialize().then(function () {
 
 
 
-
-
-
-
-
-
-
+//check the db i need to connect to a dif repo i think
 
