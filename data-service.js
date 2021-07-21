@@ -193,11 +193,20 @@ module.exports.getManagers = function () {
         reject();
     });
 };
+/*
+This function will invoke the Department.findAll()function •If the Department.findAll()operation
+ resolved successfully, invoke the resolve method for the promise (with the data) to communicate back 
+ to server.js that the operation was a success and to provide the data.•If there was an error at any
+  time during this process(or no results were returned), invoke the rejectmethod and pass a meaningful
+   message, ie: "no results returned".
 
-module.exports.getDepartments = function () {
-    return new Promise(function (resolve, reject) {
-        reject();
-    });
+*/
+module.exports.getDepartments =  ()=> {
+    return new Promise( (resolve, reject)=> {
+        Department.findAll()
+    .then(data=>resolve(data))
+    .catch(err=>reject('no results returned'));
+})
 };
 
 
