@@ -134,9 +134,9 @@ app.get("/images/add", (req, res) => {
 
 app.get("/employees/add", (req, res) => {
     data.getDepartments()
-    .then(data=>res.render('addEmployee',{departments:data}))
-.catch(err=>res.render('addEmployee',{departments:[]}));
-    
+        .then(data => res.render('addEmployee', { departments: data }))
+        .catch(err => res.render('addEmployee', { departments: [] }));
+
 });
 //whers array of images???
 app.get("/images", (req, res) => {
@@ -198,34 +198,42 @@ app.get("/employees", (req, res) => {
 app.get("/employee/:empNum", (req, res) => {// initialize an empty object to store the values
     let viewData = {};
     dataService.getEmployeeByNum(req.params.empNum)///////////////////////its data
-    .then((data) => {
-        if (data) {
-    viewData.employee = data; //store employee data in the "viewData" object as "employee"
-}/////////////////////////////////////////////////////////////////////////////////////////////////////?wtf???
+        .then((data) => {
+            if (data) {
+                viewData.employee = data; //store employee data in the "viewData" object as "employee"
+            }/////////////////////////////////////////////////////////////////////////////////////////////////////?wtf???
 
-else {
-    viewData.employee = null; // set employee to nullifnone were returned
-}})
-.catch(() => {viewData.employee = null; // set employee to null if there was an error
- })
- .then(dataService.getDepartments)
- .then((data) => {viewData.departments = data; // store department data in the "viewData" object as "departments"
- // loop through viewData.departments and once we have found the departmentId that matches
- // the employee's "department" value, add a "selected" property to the matching 
- // viewData.departments object
- for (let i = 0; i < viewData.departments.length; i++) {
-     if (viewData.departments[i].departmentId == viewData.employee.department) {
-         viewData.departments[i].selected = true;
-        }}})
-        .catch(() => {viewData.departments = []; // set departments to empty if there was an error
+            else {
+                viewData.employee = null; // set employee to nullifnone were returned
+            }
+        })
+        .catch(() => {
+            viewData.employee = null; // set employee to null if there was an error
+        })
+        .then(dataService.getDepartments)
+        .then((data) => {
+            viewData.departments = data; // store department data in the "viewData" object as "departments"
+            // loop through viewData.departments and once we have found the departmentId that matches
+            // the employee's "department" value, add a "selected" property to the matching 
+            // viewData.departments object
+            for (let i = 0; i < viewData.departments.length; i++) {
+                if (viewData.departments[i].departmentId == viewData.employee.department) {
+                    viewData.departments[i].selected = true;
+                }
+            }
+        })
+        .catch(() => {
+            viewData.departments = []; // set departments to empty if there was an error
         })
         .then(() => {
-            if (viewData.employee== null) { // if no employee -return an error
+            if (viewData.employee == null) { // if no employee -return an error
                 res.status(404).send("Employee Not Found");
             }
-            else {res.render("employee", { viewData: viewData }); // render the "employee" view
-        }});
-    });
+            else {
+                res.render("employee", { viewData: viewData }); // render the "employee" view
+            }
+        });
+});
 
 
 app.get("/managers", (req, res) => {
@@ -248,7 +256,7 @@ app.get("/departments", (req, res) => {
 
 
 app.get("/departments/add", (req, res) => {
-   res.render('addDepartment');
+    res.render('addDepartment');
 });
 // app.get("/employee/:empNum", (req, res) => {
 //     data.getEmployeeByNum(req.params.empNum)
@@ -261,21 +269,26 @@ app.get("/departments/add", (req, res) => {
 app.get("/department/:departmentId", (req, res) => {
     data.getDepartmentById(req.params.departmentId)
         .then(data => {
-            if (data.lenngth > 0) res.render('department',{department:data});
+            if (data.lenngth > 0) res.render('department', { department: data });
             else res.status(404).send('DepartmentNot Found');
         }).catch(err => res.status(404).send("DepartmentNot Found"));
 
 });
 
 app.get("/departments/delete/:departmentId", (req, res) => {
-    data.deleteDepartmentById(req, params.departmentId)//if else or catch???
+    data.deleteDepartmentById(req.params.departmentId)//if else or catch???
         .then(data => {
             if (data.lenngth > 0) res.redirect('/departments');
             else res.status(500).send('Unable to Remove Department/ Departmentnot found');
         }).catch(err => res.status(500).send("Unable to Remove Department/ Departmentnot found"));
 });
 
+app.get("/employees/delete/:empNum", (req, res) => {
+    data.deleteEmployeeByNum(req.params.departmentId)
+        .then(() => res.redirect('/employees'))
+        .catch(err => res.status(500).send("Unable to Remove Employee / Employee not found"));
 
+});
 
 app.use((req, res) => {
     res.status(404).send("Page Not Found");

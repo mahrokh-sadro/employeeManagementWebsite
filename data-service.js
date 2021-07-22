@@ -269,3 +269,16 @@ module.exports.deleteDepartmentById = id => {
             .catch(err => reject('was rejected'));
     })
 }
+
+module.exports.deleteEmployeeByNum=empNum=>{
+    return new Promise((resolve,reject)=>{
+
+        Employee.destroy({
+            where:{
+                employeeNum:empnum
+            }
+        }).then(()=>resolve())
+        .catch(err=>reject('was rejected'));
+    })
+
+}
