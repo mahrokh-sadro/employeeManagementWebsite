@@ -88,7 +88,7 @@ app.use(function (req, res, next) {
 app.post("/department/update", (req, res) => {
     data.updateDepartment(req.body)
         .then(() => {
-            res.redirect('/')
+            res.redirect('/departments')///////////////////////////////////////////////////right?????
         });
 });
 
@@ -103,7 +103,7 @@ app.post("/departments/add", (req, res) => {
 app.post("/employee/update", (req, res) => {
 
     data.updateEmployee(req.body)
-        .then(res.redirect('/employees'))
+        .then(res.redirect('/employees'))//////////////////////////////////////////////////////////right?
 });
 
 app.post("/employees/add", (req, res) => {
@@ -132,7 +132,7 @@ app.get("/images/add", (req, res) => {
     res.render('addImage');
 });
 
-app.get("/employees/add", (req, res) => {
+app.get("/employees/add", (req, res) => {///////get or post???????????
     data.getDepartments()
         .then(data => res.render('addEmployee', { departments: data }))
         .catch(err => res.render('addEmployee', { departments: [] }));
@@ -167,13 +167,14 @@ app.get("/employees", (req, res) => {
 
             //  if(data.length>0) 
             res.render("employees", { employees: data })
-            //  else res.render("employees",{message:"no results"})
+            //  else res.render("employees",{message:"no results"})////////////y not here???
 
         }).catch((err) => {
             res.render("employees", { message: "no results" });
         });
     } else {
-        data.getAllEmployees().then((data) => {//we need to use  if(data.length>0) just here?
+        data.getAllEmployees()
+        .then(data => {//we need to use  if(data.length>0) just here?
 
             if (data.length > 0) res.render("employees", { employees: data })
             else res.render("employees", { message: "no results" })
@@ -243,12 +244,13 @@ app.get("/managers", (req, res) => {
 });
 
 app.get("/departments", (req, res) => {
-    data.getDepartments().then((data) => {//we need to use  if(data.length>0) just here?
+    data.getDepartments()
+    .then(data => {//we need to use  if(data.length>0) just here?
 
         if (data.length > 0) res.render("departments", { departments: data })
         else res.render("departments", { message: "no results" })
 
-    }).catch((err) => {
+    }).catch(err => {
         res.render("departments", { message: "no results" });
     });
 

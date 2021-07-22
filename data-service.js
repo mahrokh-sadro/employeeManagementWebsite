@@ -51,24 +51,11 @@ const Department = sequelize.define(
     }
 );
 
-/*
-This will ensure that our Employee model gets a "department" column that will act as a foreign key
- to the Department model.  When a Department is deleted, any associated Employee's will have a
-  "null" value set to their "department" foreign key.
-*/
+
 //wheres department?????
 Department.hasMany(Employee, { foreign: 'department' });
 ///////////////////////////////////////////////////////////////////////////////////////my department is buggy
-/*
 
-This function will invoke the sequelize.sync()function, which will ensure that we can connected 
-to the DB and that our Employee and Department models are represented in the database as tables.
-•If the sync()operation resolved successfully, invoke the resolve method for the promise to
- communicate back to server.js that the operation was a success.•If there was an error at any 
- time during this process, invoke the rejectmethod for the promise and pass an appropriate message,
-  ie: reject("unable to sync the database")
-
-*/
 module.exports.initialize = () => {//wat does this do again???how to test
     return new Promise((resolve, reject) => {
         sequelize.sync()
@@ -201,12 +188,12 @@ This function will invoke the Department.findAll()function •If the Department.
    message, ie: "no results returned".
 
 */
-module.exports.getDepartments =  ()=> {
-    return new Promise( (resolve, reject)=> {
+module.exports.getDepartments = () => {
+    return new Promise((resolve, reject) => {
         Department.findAll()
-    .then(data=>resolve(data))
-    .catch(err=>reject('no results returned'));
-})
+            .then(data => resolve(data))
+            .catch(err => reject('no results returned'));
+    })
 };
 
 
@@ -236,14 +223,21 @@ module.exports.addDepartment = departmentData => {
     });
 
 };
-
+/*
+we can invoke the Department.update()function and filter the operation by "departmentId" 
+(ie departmentData.departmentId)///////////////////////////////////////////////////////////////////////?
+*/
 module.exports.updateDepartment = departmentData => {
     return new Promise((resolve, reject) => {
         for (property in departmentData) {
-            if (departmentData.property == "") departmentData.property = null;//why
+            if (departmentData.property == "") departmentData.property = null;/////////////////////why
         }
-        Department.update()
-            .then(() => resolve())
+        Department.update({
+
+            where: {
+                departmentId: departmentData.departmentId
+            }
+        }).then(() => resolve())
             .catch(err => reject('no results returned'));
 
     });
@@ -270,15 +264,15 @@ module.exports.deleteDepartmentById = id => {
     })
 }
 
-module.exports.deleteEmployeeByNum=empNum=>{
-    return new Promise((resolve,reject)=>{
+module.exports.deleteEmployeeByNum = empNum => {
+    return new Promise((resolve, reject) => {
 
         Employee.destroy({
-            where:{
-                employeeNum:empnum
+            where: {
+                employeeNum: empnum
             }
-        }).then(()=>resolve())
-        .catch(err=>reject('was rejected'));
+        }).then(() => resolve())
+            .catch(err => reject('was rejected'));
     })
 
 }

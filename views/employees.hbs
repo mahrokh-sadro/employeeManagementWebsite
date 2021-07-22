@@ -1,10 +1,9 @@
-
 {{!-- Lastly, update the employees.hbsview to include a "remove" link for every employee within in a
- new column of the table (at the end)-Note: The header for the columnshould not contain any text.Thelinks 
- in every rowshould be styled as a button (ie: class="btn btn-danger")with the text "remove"and link to the
-  newly created GET route "employees/delete/empNum"where empNumis the employee number of the employee
-   in the current row.  Once this button is clicked, the employee will be deleted and the user will be
-    redirected back to the "/employees" list. --}}
+new column of the table (at the end)-Note: The header for the columnshould not contain any text.Thelinks
+in every row should be styled as a button (ie: class="btn btn-danger")with the text "remove"and link to the
+newly created GET route "employees/delete/empNum"where empNumis the employee number of the employee
+in the current row. Once this button is clicked, the employee will be deleted and the user will be
+redirected back to the "/employees" list. --}}
 
 
 <div class="row">
@@ -38,6 +37,7 @@
                     <td> <a href="/employees?status={{this.status}}">{{this.status}}</a></td>
                     <td><a href="/employees?department={{this.department}}">{{this.department}}</a></td>
                     <td>{{this.hireDate}}</td>
+                     <td><a href="/employees/delete/empNum" class="btn btn-danger pull-right">remove</a></td>
                 </tr>
                 {{/each}}
             </tbody>
