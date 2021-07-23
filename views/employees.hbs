@@ -37,7 +37,7 @@ redirected back to the "/employees" list. --}}
                     <td> <a href="/employees?status={{this.status}}">{{this.status}}</a></td>
                     <td><a href="/employees?department={{this.department}}">{{this.department}}</a></td>
                     <td>{{this.hireDate}}</td>
-                     <td><a href="/employees/delete/empNum" class="btn btn-danger pull-right">remove</a></td>
+                     <td><a href="/employees/delete/{{this.employeeNum}}" class="btn btn-danger pull-right">remove</a></td>
                 </tr>
                 {{/each}}
             </tbody>

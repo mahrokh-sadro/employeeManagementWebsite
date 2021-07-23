@@ -76,6 +76,10 @@ module.exports.getAllEmployees = () => {//when then has argument??
     return new Promise((resolve, reject) => {
         Employee.findAll()
             .then(data => resolve(data))
+
+            // data = data.map(value => value.dataValues);
+            // resolve(data);
+
             .catch(err => reject('no results returned'));
 
     });
@@ -87,10 +91,10 @@ module.exports.addEmployee = employeeData => {
 
     return new Promise((resolve, reject) => {
         employeeData.isManager = (employeeData.isManager) ? true : false;
-        for (property in employeeData) {
-            if (employeeData.property == "") employeeData.property = null;
+        for (let i in employeeData) {
+            if (employeeData[i] == "") employeeData[i] = null;
         }
-        Employee.create()
+        Employee.create(employeeData)//i forgot to pass the data
             .then(() => resolve())
             .catch(err => reject('unable to create employee'));
     });
@@ -201,10 +205,16 @@ module.exports.getDepartments = () => {
 module.exports.updateEmployee = employeeData => {
     return new Promise((resolve, reject) => {
         employeeData.isManager = (employeeData.isManager) ? true : false;
-        for (property in employeeData) {
-            if (employeeData.property == "") employeeData.property = null;
+        for (let i in employeeData) {
+            if (employeeData[i] == "") employeeData[i] = null;
         }
-        Employee.update()
+        Employee.update({//syntaxs dif than create?
+            employeeData
+        },{
+            where:{
+                employeeNum:employeeData.employeeNum
+            }
+        })
             .then(() => resolve())
             .catch(err => reject('unable to updateemployee'))
 
@@ -214,10 +224,14 @@ module.exports.updateEmployee = employeeData => {
 
 module.exports.addDepartment = departmentData => {
     return new Promise((resolve, reject) => {//y we need this?
-        for (property in departmentData) {
-            if (departmentData.property == "") departmentData.property = null;
+        // for (property in departmentData) {
+        //     if (departmentData.property == "") departmentData.property = null;
+        // }
+        for (let i in departmentData) {
+            if (departmentData[i] == "") departmentData[i] = null;
         }
-        Department.create()
+    //    await
+        Department.create(departmentData)              ////////////////////////////////////////////////////////////////////////////wtf 
             .then(() => resolve())
             .catch(err => resolve('unable to create department'));
     });
@@ -227,29 +241,32 @@ module.exports.addDepartment = departmentData => {
 we can invoke the Department.update()function and filter the operation by "departmentId" 
 (ie departmentData.departmentId)///////////////////////////////////////////////////////////////////////?
 */
-module.exports.updateDepartment = departmentData => {
+module.exports.updateDepartment = departmentData => {//wats datadepartment??
     return new Promise((resolve, reject) => {
-        for (property in departmentData) {
-            if (departmentData.property == "") departmentData.property = null;/////////////////////why
+        // for (property in departmentData) {
+        //     if (departmentData.property == "") departmentData.property = null;/////////////////////why
+        // }
+        for (let i in departmentData) {
+            if (departmentData[i] == "") departmentData[i] = null;/////////////////////why
         }
-        Department.update({
-
+        Department.update(departmentData,{  //wats this obj?????///
             where: {
                 departmentId: departmentData.departmentId
             }
-        }).then(() => resolve())
+        }).then(() => resolve())//do we have data??????????
             .catch(err => reject('no results returned'));
 
     });
 }
-
+//f the Department.findAll()operation resolved successfully, invoke the resolve method for the promise (with the data[0]
+//wtf  data[0]  doesnt work fffffffffffffffffffffffffffffffffffffffffffffffffff
 module.exports.getDepartmentById = id => {
     return new Promise((resolve, reject) => {
         Department.findAll({
             where: {
                 departmentId: id
             }
-        }).then(data => resolve(data[0]))
+        }).then(data => resolve(data))
             .catch(err => resolve('no results returned'));
 
     });
@@ -258,8 +275,12 @@ module.exports.getDepartmentById = id => {
 
 module.exports.deleteDepartmentById = id => {
     return new Promise((resolve, reject) => {
-        Department.destroy()
-            .then(() => resolve())
+        Department.destroy({
+            where:{
+                departmentId: id
+            }
+        })
+            .then(() => resolve('destroyed'))//or then(resolve())
             .catch(err => reject('was rejected'));
     })
 }
@@ -269,10 +290,15 @@ module.exports.deleteEmployeeByNum = empNum => {
 
         Employee.destroy({
             where: {
-                employeeNum: empnum
+                employeeNum: empNum
             }
-        }).then(() => resolve())
+        }).then(()=>resolve('destroyed'))
             .catch(err => reject('was rejected'));
     })
 
 }
+
+
+
+//updates buggy
+//delets buggy

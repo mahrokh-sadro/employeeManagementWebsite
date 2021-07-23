@@ -1,36 +1,32 @@
-{{!-- Adda "remove" link for every departmentwithin in a new column of the table (at the end) -Note: The
-header for the column should not contain any text(ie:
-<hr>
-</hr>). The links in every row should be styled
-as a button (ie: class="btn btn-danger") with the text "remove" and simply link to the newly created GET
-route "departments/delete/departmentId" where departmentIdis the departmentidof the departmentin the current
-row. Once this button is clicked, the departmentwill be deleted and the user will be redirected back to
-the "/departments" list.(Hint: See the sample solution if you need help with the table formatting) --}}
-
 <div class="row">
   <div class="col-md-12">
-    <h2>Department</h2>
-    <a href="/departments/add" class="btn btn-primary pull-right">Add New Department</a><br>
+    <h2>Departments <a href="/departments/add" class="btn btn-success pull-right">Add New Department</a> </h2>
     <hr />
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Department Number</th>
-          <th scope="col">Department Name</th>
+    <div class="table-responsive">
+      <table class="table ">
+        <thead>
+          <tr>
+            <th>Department Number</th>
+            <th>Department Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each departments}}
+          <tr>
+    
+            <th scope="row"><a href="/employees?department={{this.departmentId}}">{{this.departmentId}}</a></th>
+            <td><a href="/department/{{departmentId}}">{{departmentName}}</a></td>
+            <td><a href="/departments/delete/{{this.departmentId}}" class="btn btn-danger">remove</a></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
 
-        </tr>
-      </thead>
-      <tbody>
-        {{#each departments}}
-        <tr>
-          {{!-- fixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --}}
-          <td><a href="/department/{{departmentId}}">{{departmentName}}</a></td>
-          {{!-- <td><a href="/employees?department={{this.departmentId}}">{{this.departmentName}}</a></td> --}}
-          <td><a href="departments/delete/{{departmentId}}" class="btn btn-danger pull-right">remove</a></td>
-
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
   </div>
+  {{#unless departments}}
+  <div class="col-md-12 text-center">
+    <strong>{{message}}</strong>
+  </div>
+  {{/unless}}
 </div>

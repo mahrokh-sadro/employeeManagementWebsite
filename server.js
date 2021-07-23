@@ -89,6 +89,8 @@ app.post("/department/update", (req, res) => {
     data.updateDepartment(req.body)
         .then(() => {
             res.redirect('/departments')///////////////////////////////////////////////////right?????
+        }).catch((err) => {
+            res.status(500).send("Unable to Update Department");
         });
 });
 
@@ -96,14 +98,21 @@ app.post("/departments/add", (req, res) => {
     data.addDepartment(req.body) //how does it know req body name,name?
         .then(() => {
             res.redirect('/departments');
-        });
+        }).catch((err) => {
+            res.status(500).send("unable to add departments");
+        })
 });
 
 
 app.post("/employee/update", (req, res) => {
 
-    data.updateEmployee(req.body)
-        .then(res.redirect('/employees'))//////////////////////////////////////////////////////////right?
+    // data.updateEmployee(req.body)
+    //     .then(res.redirect('/employees'))//////////////////////////////////////////////////////////right?
+data.updateEmployee(req.body)//when use req.body???
+.then(()=>res.redirect("/employees"))
+.catch(err=>res.status(500).send("Unable to Update Employee"));
+
+
 });
 
 app.post("/employees/add", (req, res) => {
@@ -130,10 +139,10 @@ app.get("/about", (req, res) => {
 
 app.get("/images/add", (req, res) => {
     res.render('addImage');
-});
+})
 
 app.get("/employees/add", (req, res) => {///////get or post???????????
-    data.getDepartments()
+    data.getAllEmployees()
         .then(data => res.render('addEmployee', { departments: data }))
         .catch(err => res.render('addEmployee', { departments: [] }));
 
@@ -198,7 +207,7 @@ app.get("/employees", (req, res) => {
 
 app.get("/employee/:empNum", (req, res) => {// initialize an empty object to store the values
     let viewData = {};
-    dataService.getEmployeeByNum(req.params.empNum)///////////////////////its data
+    data.getEmployeeByNum(req.params.empNum)///////////////////////its data
         .then((data) => {
             if (data) {
                 viewData.employee = data; //store employee data in the "viewData" object as "employee"
@@ -211,7 +220,7 @@ app.get("/employee/:empNum", (req, res) => {// initialize an empty object to sto
         .catch(() => {
             viewData.employee = null; // set employee to null if there was an error
         })
-        .then(dataService.getDepartments)
+        .then(data.getDepartments)
         .then((data) => {
             viewData.departments = data; // store department data in the "viewData" object as "departments"
             // loop through viewData.departments and once we have found the departmentId that matches
@@ -249,7 +258,7 @@ app.get("/departments", (req, res) => {
 
         if (data.length > 0) res.render("departments", { departments: data })
         else res.render("departments", { message: "no results" })
-
+        // res.render("departments", (data.length > 0) ? { departments: data } : { message: "no results" })
     }).catch(err => {
         res.render("departments", { message: "no results" });
     });
@@ -271,22 +280,21 @@ app.get("/departments/add", (req, res) => {
 app.get("/department/:departmentId", (req, res) => {
     data.getDepartmentById(req.params.departmentId)
         .then(data => {
-            if (data.lenngth > 0) res.render('department', { department: data });
-            else res.status(404).send('DepartmentNot Found');
-        }).catch(err => res.status(404).send("DepartmentNot Found"));
+            if (data.length > 0) res.render('department', { department: data });
+            else res.status(404).send('Department Not Founddddddddddd'); 
+        }).catch(err => res.status(404).send("DepartmentNot Foundzzzzzzzzzzzzzzzz"));
 
 });
 
 app.get("/departments/delete/:departmentId", (req, res) => {
-    data.deleteDepartmentById(req.params.departmentId)//if else or catch???
-        .then(data => {
-            if (data.lenngth > 0) res.redirect('/departments');
-            else res.status(500).send('Unable to Remove Department/ Departmentnot found');
-        }).catch(err => res.status(500).send("Unable to Remove Department/ Departmentnot found"));
+    data.deleteDepartmentById(req.params.departmentId)                                          //if else or catch???
+        .then(() =>  res.redirect('/departments'))
+           
+        .catch(err => res.status(500).send("Unable to Remove Department/ Departmentnot found"));
 });
 
 app.get("/employees/delete/:empNum", (req, res) => {
-    data.deleteEmployeeByNum(req.params.departmentId)
+    data.deleteEmployeeByNum(req.params.empNum)
         .then(() => res.redirect('/employees'))
         .catch(err => res.status(500).send("Unable to Remove Employee / Employee not found"));
 
@@ -309,3 +317,13 @@ data.initialize().then(function () {
 
 //check the db i need to connect to a dif repo i think
 
+
+
+
+// when we use 
+// .then(
+//     res.render("addEmployee", { departments: data })
+// )
+
+// when we use 
+// .then(()=>)
