@@ -1,23 +1,23 @@
- <div class="row">
+<div class="row">
     <div class="col-md-12">
-{{!-- fixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx thissssssssssssssssssssssssssssssssssssss --}}
 
-{{!-- when 404  happens??? --}}
+        {{!-- when 404 happens??? --}}
 
         <hr />
         <form method="post" action="/department/update">
-
+            {{#each department}}
             <input class="form-control" id="departmentId" name="departmentId" type="hidden"
-                value="{{ department.departmentId}}" />
+                value="{{ this.departmentId}}" />
 
             <fieldset>
-                <legend>departmentName</legend>
+                <legend>{{this.departmentName}} - Department:{{this.departmentId}}</legend>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group"><label for="departmentName">departmentName</label><input class="form-control"
-                                id="departmentName" name="departmentName" type="text" value="{{ departmentName}}" /></div>
+                    <div class="col-md-12">
+                        <div class="form-group"><label for="departmentName">departmentName</label><input
+                                class="form-control" id="departmentName" name="departmentName" type="text"
+                                value="{{ this.departmentName}}" /></div>
                     </div>
-                  
+                    {{/each}}
                 </div>
             </fieldset>
             <hr />
@@ -26,5 +26,4 @@
 
         </form>
     </div>
-</div> 
- 
+</div>

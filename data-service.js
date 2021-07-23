@@ -65,13 +65,7 @@ module.exports.initialize = () => {//wat does this do again???how to test
 
     });
 };
-/*
-This function will invoke the Employee.findAll()function•If the Employee.findAll()operation 
-resolved successfully, invoke the resolve method for the promise (with the data) to communicate 
-back to server.js that the operation was a success and to provide the data.•If there was an error
- at any time during this process, invoke the rejectmethod and pass a meaningful message, ie: "no
-  results returned".
-*/
+
 module.exports.getAllEmployees = () => {//when then has argument??
     return new Promise((resolve, reject) => {
         Employee.findAll()
@@ -84,9 +78,7 @@ module.exports.getAllEmployees = () => {//when then has argument??
 
     });
 }
-/*
 
-*/
 module.exports.addEmployee = employeeData => {
 
     return new Promise((resolve, reject) => {
@@ -99,15 +91,7 @@ module.exports.addEmployee = employeeData => {
             .catch(err => reject('unable to create employee'));
     });
 };
-/*
-This function will invoke the Employee.findAll()function and filter the results by "employeeNum"
- (using the value passed to the function -ie: 1 or 2 or 3 ... etc
-    •If the Employee.findAll()operation
-  resolved successfully, invoke the resolve method for the promise (with the data[0], ie: only 
-    providethe first object) to communicate back to server.js that the operation was a success and
-     to provide the data.•If there was an error at any time during this process, invoke the 
-     rejectmethod and pass a meaningful message, ie: "no results returned".
-*/
+
 module.exports.getEmployeeByNum = num => {
     return new Promise((resolve, reject) => {
         Employee.findAll({
@@ -119,15 +103,7 @@ module.exports.getEmployeeByNum = num => {
 
     });
 };
-/*
-This function will invoke the Employee.findAll()function and filter the results by "status" 
-(using the value passed to the function -ie: "Full Time" or "Part Time"•
-If the Employee.
-findAll()operation resolved successfully, invoke the resolve method for the promise (with the data)
- to communicate back to server.js that the operation was a success and to provide the data.•If
-  there was an error at any time during this process, invoke the rejectmethod and pass a meaningful
-   message, ie: "no results returned".
-*/
+
 module.exports.getEmployeesByStatus = status => {
     return new Promise((resolve, reject) => {
         Employee.findAll({
@@ -140,14 +116,7 @@ module.exports.getEmployeesByStatus = status => {
 
     });
 };
-/*
-This function will invoke the Employee.findAll()function and filter the results by "department" 
-(using the value passed to the function -ie: 1 or 2 or 3 ... etc
-•If the Employee.findAll()operation resolved successfully, invoke the resolve method for the promise
- (with the data) to communicate back to server.jsthat the operation was a success and to provide 
- the data.•If there was an error at any time during this process, invoke the rejectmethod and pass
-  a meaningful message, ie: "no results returned
-*/
+
 
 module.exports.getEmployeesByDepartment = department => {//how to test each 1 here??
     return new Promise((resolve, reject) => {
@@ -160,14 +129,7 @@ module.exports.getEmployeesByDepartment = department => {//how to test each 1 he
 
     });
 };
-/*
-This function will invoke the Employee.findAll()function and filter the results by
- "employeeManagerNum" (using the value passed to the function -ie: 1 or 2 or 3 ... etc•
-    If the Employee.findAll()operation resolved successfully, invoke the resolve method for the
-     promise (with the data) to communicate back to server.js that the operation was a success
-      and to provide the data.•If there was an error at any time during this process,
-      invoke the rejectmethod and pass a meaningful message, ie: "no results returned".
-*/
+
 module.exports.getEmployeesByManager = manager => {
     return new Promise((resolve, reject) => {
         Employee.findAll({
@@ -184,14 +146,7 @@ module.exports.getManagers = function () {
         reject();
     });
 };
-/*
-This function will invoke the Department.findAll()function •If the Department.findAll()operation
- resolved successfully, invoke the resolve method for the promise (with the data) to communicate back 
- to server.js that the operation was a success and to provide the data.•If there was an error at any
-  time during this process(or no results were returned), invoke the rejectmethod and pass a meaningful
-   message, ie: "no results returned".
 
-*/
 module.exports.getDepartments = () => {
     return new Promise((resolve, reject) => {
         Department.findAll()
@@ -208,14 +163,13 @@ module.exports.updateEmployee = employeeData => {
         for (let i in employeeData) {
             if (employeeData[i] == "") employeeData[i] = null;
         }
-        Employee.update({//syntaxs dif than create?
-            employeeData
-        },{
+        Employee.update(employeeData,{                //syntaxs dif than create?
+            
             where:{
                 employeeNum:employeeData.employeeNum
             }
         })
-            .then(() => resolve())
+            .then(employeeData => resolve(employeeData))
             .catch(err => reject('unable to updateemployee'))
 
     });
@@ -243,9 +197,7 @@ we can invoke the Department.update()function and filter the operation by "depar
 */
 module.exports.updateDepartment = departmentData => {//wats datadepartment??
     return new Promise((resolve, reject) => {
-        // for (property in departmentData) {
-        //     if (departmentData.property == "") departmentData.property = null;/////////////////////why
-        // }
+        
         for (let i in departmentData) {
             if (departmentData[i] == "") departmentData[i] = null;/////////////////////why
         }
@@ -253,7 +205,7 @@ module.exports.updateDepartment = departmentData => {//wats datadepartment??
             where: {
                 departmentId: departmentData.departmentId
             }
-        }).then(() => resolve())//do we have data??????????
+        }).then(departmentData => resolve(departmentData))//do we have data??????????
             .catch(err => reject('no results returned'));
 
     });
