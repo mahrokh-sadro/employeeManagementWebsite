@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12">
-    <h2>Departments <a href="/departments/add" class="btn btn-success pull-right">Add New Department</a> </h2>
+    <h2>Departments <a href="/departments/add" class="btn btn-primary pull-right">Add New Department</a> </h2>
     <hr />
     <div class="table-responsive">
       <table class="table ">
@@ -13,10 +13,10 @@
         <tbody>
           {{#each departments}}
           <tr>
-    
+
             <th scope="row"><a href="/employees?department={{this.departmentId}}">{{this.departmentId}}</a></th>
             <td><a href="/department/{{departmentId}}">{{departmentName}}</a></td>
-            <td><a href="/departments/delete/{{this.departmentId}}" class="btn btn-danger">remove</a></td>
+            <td><a href="/departments/delete/{{this.departmentId}}" class="btn btn-danger pull-right">remove</a></td>
           </tr>
           {{/each}}
         </tbody>
@@ -24,9 +24,9 @@
     </div>
 
   </div>
-  {{#unless departments}}
   <div class="col-md-12 text-center">
+    {{#unless departments}}
     <strong>{{message}}</strong>
+    {{/unless}}
   </div>
-  {{/unless}}
 </div>
