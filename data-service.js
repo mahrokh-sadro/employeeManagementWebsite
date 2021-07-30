@@ -52,11 +52,10 @@ const Department = sequelize.define(
 );
 
 
-//wheres department?????
-Department.hasMany(Employee, { foreign: 'department' });
-///////////////////////////////////////////////////////////////////////////////////////my department is buggy
 
-module.exports.initialize = () => {//wat does this do again???how to test
+Department.hasMany(Employee, { foreign: 'department' });
+
+module.exports.initialize = () => {
     return new Promise((resolve, reject) => {
         sequelize.sync()
             .then(Employee => { resolve('Employee model synced'); })
@@ -66,19 +65,15 @@ module.exports.initialize = () => {//wat does this do again???how to test
     });
 };
 
-module.exports.getAllEmployees = () => {//when then has argument??
+module.exports.getAllEmployees = () => {
     return new Promise((resolve, reject) => {
         Employee.findAll()
             .then(data => resolve(data))
-
-            // data = data.map(value => value.dataValues);
-            // resolve(data);
-
             .catch(err => reject('no results returned'));
 
     });
 }
-
+//crud doesnt have return
 module.exports.addEmployee = employeeData => {
 
     return new Promise((resolve, reject) => {
@@ -86,7 +81,7 @@ module.exports.addEmployee = employeeData => {
         for (let i in employeeData) {
             if (employeeData[i] == "") employeeData[i] = null;
         }
-        Employee.create(employeeData)//i forgot to pass the data
+        Employee.create(employeeData)
             .then(() => resolve())
             .catch(err => reject('unable to create employee'));
     });
@@ -98,8 +93,8 @@ module.exports.getEmployeeByNum = num => {
             where: {
                 employeeNum: num
             }
-        }).then(data => resolve(data[0]))//why???????????????????????????????????????
-            .catch(err => reject('no results returned')); //wat err?
+        }).then(data => resolve(data[0]))
+            .catch(err => reject('no results returned')); 
 
     });
 };
@@ -118,7 +113,7 @@ module.exports.getEmployeesByStatus = status => {
 };
 
 
-module.exports.getEmployeesByDepartment = department => {//how to test each 1 here??
+module.exports.getEmployeesByDepartment = department => {
     return new Promise((resolve, reject) => {
         Employee.findAll({
             where: {
@@ -159,6 +154,7 @@ module.exports.getDepartments = () => {
 
 module.exports.updateEmployee = employeeData => {
     return new Promise((resolve, reject) => {
+        console.log(`best person ever `+employeeData.firstName);
         employeeData.isManager = (employeeData.isManager) ? true : false;
         for (let i in employeeData) {
             if (employeeData[i] == "") employeeData[i] = null;
@@ -166,10 +162,10 @@ module.exports.updateEmployee = employeeData => {
         Employee.update(employeeData,{                //syntaxs dif than create?
             
             where:{
-                employeeNum:employeeData.employeeNum
+                employeeNum:employeeData.employeeNum  //from form body 
             }
         })
-            .then(employeeData => resolve(employeeData))
+            .then( ()=> resolve())
             .catch(err => reject('unable to updateemployee'))
 
     });
@@ -177,15 +173,13 @@ module.exports.updateEmployee = employeeData => {
 
 
 module.exports.addDepartment = departmentData => {
-    return new Promise((resolve, reject) => {//y we need this?
-        // for (property in departmentData) {
-        //     if (departmentData.property == "") departmentData.property = null;
-        // }
+    return new Promise((resolve, reject) => {
+       
         for (let i in departmentData) {
             if (departmentData[i] == "") departmentData[i] = null;
         }
     //    await
-        Department.create(departmentData)              ////////////////////////////////////////////////////////////////////////////wtf 
+        Department.create(departmentData)     
             .then(() => resolve())
             .catch(err => resolve('unable to create department'));
     });
@@ -193,25 +187,24 @@ module.exports.addDepartment = departmentData => {
 };
 /*
 we can invoke the Department.update()function and filter the operation by "departmentId" 
-(ie departmentData.departmentId)///////////////////////////////////////////////////////////////////////?
+(ie departmentData.departmentId)
 */
-module.exports.updateDepartment = departmentData => {//wats datadepartment??
+module.exports.updateDepartment = departmentData => {
     return new Promise((resolve, reject) => {
         
         for (let i in departmentData) {
-            if (departmentData[i] == "") departmentData[i] = null;/////////////////////why
+            if (departmentData[i] == "") departmentData[i] = null;
         }
-        Department.update(departmentData,{  //wats this obj?????///
+        Department.update(departmentData,{  
             where: {
                 departmentId: departmentData.departmentId
             }
-        }).then(departmentData => resolve(departmentData))//do we have data??????????
+        }).then(() => resolve())
             .catch(err => reject('no results returned'));
 
     });
 }
-//f the Department.findAll()operation resolved successfully, invoke the resolve method for the promise (with the data[0]
-//wtf  data[0]  doesnt work fffffffffffffffffffffffffffffffffffffffffffffffffff
+
 module.exports.getDepartmentById = id => {
     return new Promise((resolve, reject) => {
         Department.findAll({
@@ -250,7 +243,3 @@ module.exports.deleteEmployeeByNum = empNum => {
 
 }
 
-
-
-//updates buggy
-//delets buggy

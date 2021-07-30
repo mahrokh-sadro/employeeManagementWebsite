@@ -1,12 +1,12 @@
 /*********************************************************************************
-* WEB322 – Assignment 03
+* WEB322 – Assignment 04
 * I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
 * of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
 *
-* Name: _Mahrokh Sadrolodabaee______ Student ID: __159436195_____ Date: __July 17,2021_____
+* Name: _Mahrokh Sadrolodabaee______ Student ID: __159436195_____ Date: __July 30,2021_____
 *
-* Online (Heroku) Link: https://web322-asg3.herokuapp.com/
+* Online (Heroku) Link: https://web322-asg3.herokuapp.com///////////
 *
 ********************************************************************************/
 
@@ -86,16 +86,16 @@ app.use(function (req, res, next) {
 
 
 app.post("/department/update", (req, res) => {
-    data.updateDepartment(req.body)
+    data.updateDepartment(req.body)//info from the from
         .then(() => {
-            res.redirect('/departments')///////////////////////////////////////////////////right?????
+            res.redirect('/departments')
         }).catch((err) => {
             res.status(500).send("Unable to Update Department");
         });
 });
 
 app.post("/departments/add", (req, res) => {
-    data.addDepartment(req.body) //how does it know req body name,name?
+    data.addDepartment(req.body) 
         .then(() => {
             res.redirect('/departments');
         }).catch((err) => {
@@ -107,7 +107,7 @@ app.post("/departments/add", (req, res) => {
 app.post("/employee/update", (req, res) => {
 
     // data.updateEmployee(req.body)
-    //     .then(res.redirect('/employees'))//////////////////////////////////////////////////////////right?
+    //     .then(res.redirect('/employees'))right?
 data.updateEmployee(req.body)//when use req.body???
 .then(()=>res.redirect("/employees"))
 .catch(err=>res.status(500).send("Unable to Update Employee"));
@@ -133,7 +133,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-    //res.sendFile(path.join(__dirname, "/views/about.hbs"));
     res.render('about');
 });
 
@@ -141,7 +140,7 @@ app.get("/images/add", (req, res) => {
     res.render('addImage');
 })
 
-app.get("/employees/add", (req, res) => {///////get or post???????????
+app.get("/employees/add", (req, res) => {
     data.getAllEmployees()
         .then(data => res.render('addEmployee', { departments: data }))
         .catch(err => res.render('addEmployee', { departments: [] }));
@@ -174,16 +173,16 @@ app.get("/employees", (req, res) => {
     } else if (req.query.manager) {
         data.getEmployeesByManager(req.query.manager).then((data) => {
 
-            //  if(data.length>0) 
+           
             res.render("employees", { employees: data })
-            //  else res.render("employees",{message:"no results"})////////////y not here???
+           
 
         }).catch((err) => {
             res.render("employees", { message: "no results" });
         });
     } else {
         data.getAllEmployees()
-        .then(data => {//we need to use  if(data.length>0) just here?
+        .then(data => {
 
             if (data.length > 0) res.render("employees", { employees: data })
             else res.render("employees", { message: "no results" })
@@ -195,15 +194,6 @@ app.get("/employees", (req, res) => {
 });
 
 
-
-// app.get("/employee/:empNum", (req, res) => {
-//     data.getEmployeeByNum(req.params.empNum)
-//         .then((data) => {
-//             res.render("employee", { employee: data });
-//         }).catch((err) => {
-//             res.render("employee", { message: "no results" }); //whers this msg?
-//         });
-// });
 
 app.get("/employee/:empNum", (req, res) => {// initialize an empty object to store the values
     let viewData = {};
@@ -254,11 +244,11 @@ app.get("/managers", (req, res) => {
 
 app.get("/departments", (req, res) => {
     data.getDepartments()
-    .then(data => {//we need to use  if(data.length>0) just here?
+    .then(data => {
 
         if (data.length > 0) res.render("departments", { departments: data })
         else res.render("departments", { message: "no results" })
-        // res.render("departments", (data.length > 0) ? { departments: data } : { message: "no results" })
+    
     }).catch(err => {
         res.render("departments", { message: "no results" });
     });
@@ -269,20 +259,13 @@ app.get("/departments", (req, res) => {
 app.get("/departments/add", (req, res) => {
     res.render('addDepartment');
 });
-// app.get("/employee/:empNum", (req, res) => {
-//     data.getEmployeeByNum(req.params.empNum)
-//         .then((data) => {
-//             res.render("employee", { employee: data });
-//         }).catch((err) => {
-//             res.render("employee", { message: "no results" }); //whers this msg?
-//         });
-// });
+
 app.get("/department/:departmentId", (req, res) => {
     data.getDepartmentById(req.params.departmentId)
         .then(data => {
             if (data.length > 0) res.render('department', { department: data });
-            else res.status(404).send('Department Not Founddddddddddd'); 
-        }).catch(err => res.status(404).send("DepartmentNot Foundzzzzzzzzzzzzzzzz"));
+            else res.status(404).send('Department Not Found'); 
+        }).catch(err => res.status(404).send("DepartmentNot Found"));
 
 });
 
@@ -315,7 +298,7 @@ data.initialize().then(function () {
 
 
 
-//check the db i need to connect to a dif repo i think
+
 
 
 
