@@ -19,7 +19,8 @@ const fs = require("fs");
 const multer = require("multer");
 const { resolve } = require("path");
 const { rejects } = require("assert");
-const dataServiceAuth=require('data-service-auth.js');
+const dataServiceAuth = require('data-service-auth.js');
+const clientSessions = require('client-sessions');
 const app = express();
 app.engine('.hbs', exphbs({
     extname: '.hbs',
@@ -82,11 +83,34 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(clientSessions({
+    cookieName: "session",
+    secret: "myWeb322Asg5",
+    duration: 2 * 60 * 1000,
+    activeDuration: 1000 * 60
+
+
+}));
+
+/*
+Once this is complete, incorporate the following custom middleware function to ensure that all of your 
+templates will have access to a "session" object (ie: {{session.userName}} for example) - we will need this to 
+conditionally hide/show elements to the user depending on whether they're currently logged in. */
+
+app.use((req, res, next) => {
+    res.locals.session = req.session;//what locals???
+    next();
+});
+
+function ensureLogin(){
+    if(!req.session.user) resolve.redirect("/login");
+    else next();
+
+}
 
 
 
-
-app.post("/department/update", (req, res) => {
+app.post("/department/update",ensureLogin, (req, res) => {
     data.updateDepartment(req.body)//info from the from
         .then(() => {
             res.redirect('/departments')
@@ -95,8 +119,8 @@ app.post("/department/update", (req, res) => {
         });
 });
 
-app.post("/departments/add", (req, res) => {
-    data.addDepartment(req.body) 
+app.post("/departments/add",ensureLogin, (req, res) => {
+    data.addDepartment(req.body)
         .then(() => {
             res.redirect('/departments');
         }).catch((err) => {
@@ -105,25 +129,25 @@ app.post("/departments/add", (req, res) => {
 });
 
 
-app.post("/employee/update", (req, res) => {
+app.post("/employee/update",ensureLogin, (req, res) => {
 
     // data.updateEmployee(req.body)
     //     .then(res.redirect('/employees'))right?
-data.updateEmployee(req.body)//when use req.body???
-.then(()=>res.redirect("/employees"))
-.catch(err=>res.status(500).send("Unable to Update Employee"));
+    data.updateEmployee(req.body)//when use req.body???
+        .then(() => res.redirect("/employees"))
+        .catch(err => res.status(500).send("Unable to Update Employee"));
 
 
 });
 
-app.post("/employees/add", (req, res) => {
+app.post("/employees/add",ensureLogin, (req, res) => {
     data.addEmployee(req.body)
         .then(() => {
             res.redirect("/employees");
         });
 });
 
-app.post("/images/add", upload.single("imageFile"), (req, res) => {
+app.post("/images/add", upload.single("imageFile"),ensureLogin, (req, res) => {//wats this
     res.redirect("/images");
 });
 
@@ -137,24 +161,24 @@ app.get("/about", (req, res) => {
     res.render('about');
 });
 
-app.get("/images/add", (req, res) => {
+app.get("/images/add",ensureLogin, (req, res) => {
     res.render('addImage');
 })
 
-app.get("/employees/add", (req, res) => {
+app.get("/employees/add",ensureLogin, (req, res) => {
     data.getAllEmployees()
         .then(data => res.render('addEmployee', { departments: data }))
         .catch(err => res.render('addEmployee', { departments: [] }));
 
 });
 //whers array of images???
-app.get("/images", (req, res) => {
+app.get("/images",ensureLogin, (req, res) => {
     fs.readdir("./public/images/uploaded", function (err, items) {
         res.render("images", { images: items });
     });
 });
 
-app.get("/employees", (req, res) => {
+app.get("/employees",ensureLogin, (req, res) => {
     if (req.query.status) {
         data.getEmployeesByStatus(req.query.status).then((data) => {
 
@@ -174,29 +198,29 @@ app.get("/employees", (req, res) => {
     } else if (req.query.manager) {
         data.getEmployeesByManager(req.query.manager).then((data) => {
 
-           
+
             res.render("employees", { employees: data })
-           
+
 
         }).catch((err) => {
             res.render("employees", { message: "no results" });
         });
     } else {
         data.getAllEmployees()
-        .then(data => {
+            .then(data => {
 
-            if (data.length > 0) res.render("employees", { employees: data })
-            else res.render("employees", { message: "no results" })
+                if (data.length > 0) res.render("employees", { employees: data })
+                else res.render("employees", { message: "no results" })
 
-        }).catch((err) => {
-            res.render("employees", { message: "no results" });
-        });
+            }).catch((err) => {
+                res.render("employees", { message: "no results" });
+            });
     }
 });
 
 
 
-app.get("/employee/:empNum", (req, res) => {// initialize an empty object to store the values
+app.get("/employee/:empNum",ensureLogin, (req, res) => {// initialize an empty object to store the values
     let viewData = {};
     data.getEmployeeByNum(req.params.empNum)///////////////////////its data
         .then((data) => {
@@ -237,47 +261,47 @@ app.get("/employee/:empNum", (req, res) => {// initialize an empty object to sto
 });
 
 
-app.get("/managers", (req, res) => {
+app.get("/managers",ensureLogin, (req, res) => {
     data.getManagers().then((data) => {
         res.render("employees", { employees: data })
     });
 });
 
-app.get("/departments", (req, res) => {
+app.get("/departments",ensureLogin, (req, res) => {
     data.getDepartments()
-    .then(data => {
+        .then(data => {
 
-        if (data.length > 0) res.render("departments", { departments: data })
-        else res.render("departments", { message: "no results" })
-    
-    }).catch(err => {
-        res.render("departments", { message: "no results" });
-    });
+            if (data.length > 0) res.render("departments", { departments: data })
+            else res.render("departments", { message: "no results" })
+
+        }).catch(err => {
+            res.render("departments", { message: "no results" });
+        });
 
 });
 
 
-app.get("/departments/add", (req, res) => {
+app.get("/departments/add",ensureLogin, (req, res) => {
     res.render('addDepartment');
 });
 
-app.get("/department/:departmentId", (req, res) => {
+app.get("/department/:departmentId",ensureLogin, (req, res) => {
     data.getDepartmentById(req.params.departmentId)
         .then(data => {
             if (data.length > 0) res.render('department', { department: data });
-            else res.status(404).send('Department Not Found'); 
+            else res.status(404).send('Department Not Found');
         }).catch(err => res.status(404).send("DepartmentNot Found"));
 
 });
 
-app.get("/departments/delete/:departmentId", (req, res) => {
+app.get("/departments/delete/:departmentId",ensureLogin, (req, res) => {
     data.deleteDepartmentById(req.params.departmentId)                                          //if else or catch???
-        .then(() =>  res.redirect('/departments'))
-           
+        .then(() => res.redirect('/departments'))
+
         .catch(err => res.status(500).send("Unable to Remove Department/ Departmentnot found"));
 });
 
-app.get("/employees/delete/:empNum", (req, res) => {
+app.get("/employees/delete/:empNum",ensureLogin, (req, res) => {
     data.deleteEmployeeByNum(req.params.empNum)
         .then(() => res.redirect('/employees'))
         .catch(err => res.status(500).send("Unable to Remove Employee / Employee not found"));
@@ -289,14 +313,14 @@ app.use((req, res) => {
 });
 
 data.initialize()
-.then(dataServiceAuth.initialize)
-.then( ()=> {
-    app.listen(HTTP_PORT,  ()=> {
-        console.log("app listening on: " + HTTP_PORT)
+    .then(dataServiceAuth.initialize)
+    .then(() => {
+        app.listen(HTTP_PORT, () => {
+            console.log("app listening on: " + HTTP_PORT)
+        });
+    }).catch(err => {
+        console.log("unable to start server: " + err);
     });
-}).catch( err=> {
-    console.log("unable to start server: " + err);
-});
 
 
 
