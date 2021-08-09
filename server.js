@@ -48,7 +48,7 @@ app.engine('.hbs', exphbs({
 
 }));
 
-
+//whe redirevt when render?
 
 
 app.set('view engine', '.hbs');
@@ -108,6 +108,12 @@ function ensureLogin(){
 
 }
 
+app.post("/register",(req,res)=>{
+    dataServiceAuth.RegisterUser(req.body)
+    .then(()=>res.render('register',{successMessage: "User created"}))
+.catch(err=>res.render('register',{errorMessage: err, userName: req.body.userName}));
+})
+
 
 
 app.post("/department/update",ensureLogin, (req, res) => {
@@ -153,9 +159,19 @@ app.post("/images/add", upload.single("imageFile"),ensureLogin, (req, res) => {/
 
 
 
+
+
 app.get("/", (req, res) => {
     res.render('home');
 });
+
+app.get("/login",(req,res)=>{
+    res.render('login');
+})
+
+app.get("/register",(req,res)=>{
+    res.render('register');
+})
 
 app.get("/about", (req, res) => {
     res.render('about');
