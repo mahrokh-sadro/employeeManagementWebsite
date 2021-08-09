@@ -1,12 +1,12 @@
 /*********************************************************************************
-* WEB322 – Assignment 04
+* WEB322 – Assignment 05
 * I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
 * of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
 *
-* Name: _Mahrokh Sadrolodabaee______ Student ID: __159436195_____ Date: __July 30,2021_____
+* Name: _Mahrokh Sadrolodabaee______ Student ID: __159436195_____ Date: ______
 *
-* Online (Heroku) Link: https://web322-asg4.herokuapp.com/
+* Online (Heroku) Link: 
 *
 ********************************************************************************/
 
@@ -288,11 +288,13 @@ app.use((req, res) => {
     res.status(404).send("Page Not Found");
 });
 
-data.initialize().then(function () {
-    app.listen(HTTP_PORT, function () {
+data.initialize()
+.then(dataServiceAuth.initialize)
+.then( ()=> {
+    app.listen(HTTP_PORT,  ()=> {
         console.log("app listening on: " + HTTP_PORT)
     });
-}).catch(function (err) {
+}).catch( err=> {
     console.log("unable to start server: " + err);
 });
 

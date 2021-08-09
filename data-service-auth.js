@@ -44,9 +44,9 @@ module.exports.registerUser = userData => {
         else {
             //create a new User n save
             let newUser = new User(userData);
-            newUser.save(err=>{
-                if(err){
-                    if(err.code===11000 ) reject("User Name already taken");
+            newUser.save(err => {
+                if (err) {
+                    if (err.code === 11000) reject("User Name already taken");
                     else reject(`There was an error creating the user: ${err}`)
                 }
                 else resolve();
@@ -55,3 +55,37 @@ module.exports.registerUser = userData => {
     });
 };
 
+module.exports.checkUser = userData => {
+    return new Promise((resolve, reject) => {
+
+        User.find({
+            userName: userData.userName
+        })
+            .exec()
+            .then(users => {
+              
+                if (!users) reject(`Unable to find user: ${userData.userName}`);
+                else if (users[0].password!==userData.password) reject(`Incorrect Password for user: ${userData.userName}`);
+                else if (users[0].password === userData.password) {
+                    /*
+                  
+                    Company.updateOne(
+                        { companyName: "The Kwik-E-Mart"},
+                        { $set: { employeeCount: 3 } }
+                      ).exec();
+
+                      User.updateOne(
+                          {userName:users[0].userName},
+                          {$set:{loginHistory:users[0].loginHistory}}
+                      ).exec();
+
+                }
+
+            })
+            .catch(err => {
+
+            })
+
+    });
+
+}
