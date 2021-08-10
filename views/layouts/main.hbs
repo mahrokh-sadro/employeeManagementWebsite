@@ -34,6 +34,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav ">
+         {{#navLink "/"}}Home{{/navLink}}
+        {{#navLink "/About"}}About{{/navLink}}
         {{#if session.user}}
         <form class="navbar-form navbar-right">
           <div class="dropdown">
@@ -63,7 +65,7 @@ right"></span>&nbsp;&nbsp;Log In</a>
         {{/if}}
 
 
-
+   
 
         {{!-- {{#navLink "/"}}Home{{/navLink}}
         {{#navLink "/About"}}About{{/navLink}}
