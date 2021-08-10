@@ -132,7 +132,7 @@ app.post("/login", (req, res) => {
 
 app.post("/register", (req, res) => {
     dataServiceAuth.RegisterUser(req.body)
-        .then(() => res.render('register', { successMessage: "User created" }))
+        .then(user => res.render('register', { successMessage: "User created" }))////returns??
         .catch(err => res.render('register', { errorMessage: err, userName: req.body.userName }));
 })
 
@@ -188,7 +188,7 @@ the "/" route, ie: res.redirect('/');
 
 app.get("/logout",(req,res)=>{
     req.session.reset();
-    res.redirect('login')
+    res.redirect('/');
 })
 /*
 GET /userHistory 
@@ -199,7 +199,7 @@ your custom ensureLogin helper middleware.
 */
 
 app.get("/userHistory",ensureLogin,(req,res)=>{
-res.render('userHistory',{                                  //////////////                              });
+res.render('userHistory');
 })
 
 app.get("/", (req, res) => {
