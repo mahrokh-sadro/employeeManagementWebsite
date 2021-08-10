@@ -19,7 +19,7 @@ const fs = require("fs");
 const multer = require("multer");
 const { resolve } = require("path");
 const { rejects } = require("assert");
-const dataServiceAuth = require('data-service-auth.js');
+const dataServiceAuth = require('./data-service-auth.js');
 const clientSessions = require('client-sessions');
 const app = express();
 app.engine('.hbs', exphbs({
