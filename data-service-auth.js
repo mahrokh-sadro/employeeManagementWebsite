@@ -1,12 +1,15 @@
 
 
 const mongoose = require("mongoose");
+const bcrypt = require('bcryptjs');
 
 mongoose.connect("mongodb+srv://Ma661370:661370@cluster0.jwvms.mongodb.net/web322Asg5?retryWrites=true&w=majority");
 
 const schema = mongoose.Schema;
 
-const myTable = new schema({
+
+//check theseeee
+const userSchema = new schema({
     "userName": {
         "type": String,
         "unique": true
@@ -20,13 +23,13 @@ const myTable = new schema({
 
 });
 
-let User = mongoose.model("User", myTable);
+let User = mongoose.model("User", userSchema);
 
 
 
 module.exports.initialize = () => {
     return new Promise((resolve, reject) => {
-        let db = mongoose.createConnection("");
+        let db = mongoose.createConnection("mongodb+srv://Ma661370:661370@cluster0.jwvms.mongodb.net/web322Asg5?retryWrites=true&w=majority");
 
         db.on('error', err => reject(err));
         db.once('open', () => {
@@ -43,7 +46,7 @@ module.exports.registerUser = userData => {
         if (userData.password !== userData.password) reject("Passwords do not match");
         else {
             //create a new User n save
-            let newUser = new User(userData);
+            let newUser = new User(userData);//??????
             newUser.save(err => {
                 if (err) {
                     if (err.code === 11000) reject("User Name already taken");
@@ -67,24 +70,25 @@ module.exports.checkUser = userData => {
                 if (!users) reject(`Unable to find user: ${userData.userName}`);
                 else if (users[0].password!==userData.password) reject(`Incorrect Password for user: ${userData.userName}`);
                 else if (users[0].password === userData.password) {
-                    /*
-                  
-                    Company.updateOne(
-                        { companyName: "The Kwik-E-Mart"},
-                        { $set: { employeeCount: 3 } }
-                      ).exec();
+                    
+                    loginHistory.push({
+                        dateTime: (new Date()).toString(), 
+                        userAgent: userData.userAgent
+                    });
+                   
 
                       User.updateOne(
                           {userName:users[0].userName},
                           {$set:{loginHistory:users[0].loginHistory}}
-                      ).exec();
+                      )
+                      .exec()
+                      .then(()=>resolve(users[0] ))
+                      .catch(err=>reject(`There was an error verifying the user: ${err}`))
 
                 }
 
             })
-            .catch(err => {
-
-            })
+            .catch(err => reject(`Unable to find user: ${userData.userName}`))
 
     });
 
