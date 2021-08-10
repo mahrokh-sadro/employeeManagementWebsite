@@ -102,21 +102,43 @@ app.use((req, res, next) => {
     next();
 });
 
-function ensureLogin(){
-    if(!req.session.user) resolve.redirect("/login");
+function ensureLogin() {
+    if (!req.session.user) resolve.redirect("/login");
     else next();
 
 }
 
-app.post("/register",(req,res)=>{
+//req.body  post data
+app.post("/login", (req, res) => {
+
+    //set the value of the client's "User-Agent" to the request body //wats useeagent??
+    req.body.userAgent = req.get('User-Agent');
+    dataServiceAuth.CheckUser(req.body)
+        .then(user => {
+            req.session.user = {
+                userName: user.req.body.userName,
+                email: user.req.body.email,
+                loginHistory: user.req.body.loginHistory
+            }
+            res.redirect('/employees');
+        })
+      
+        .catch(err => {
+            res.render('login', { errorMessage: err, userName: req.body.userName })
+        })
+
+})
+
+
+app.post("/register", (req, res) => {
     dataServiceAuth.RegisterUser(req.body)
-    .then(()=>res.render('register',{successMessage: "User created"}))
-.catch(err=>res.render('register',{errorMessage: err, userName: req.body.userName}));
+        .then(() => res.render('register', { successMessage: "User created" }))
+        .catch(err => res.render('register', { errorMessage: err, userName: req.body.userName }));
 })
 
 
 
-app.post("/department/update",ensureLogin, (req, res) => {
+app.post("/department/update", ensureLogin, (req, res) => {
     data.updateDepartment(req.body)//info from the from
         .then(() => {
             res.redirect('/departments')
@@ -125,7 +147,7 @@ app.post("/department/update",ensureLogin, (req, res) => {
         });
 });
 
-app.post("/departments/add",ensureLogin, (req, res) => {
+app.post("/departments/add", ensureLogin, (req, res) => {
     data.addDepartment(req.body)
         .then(() => {
             res.redirect('/departments');
@@ -135,7 +157,7 @@ app.post("/departments/add",ensureLogin, (req, res) => {
 });
 
 
-app.post("/employee/update",ensureLogin, (req, res) => {
+app.post("/employee/update", ensureLogin, (req, res) => {
 
     // data.updateEmployee(req.body)
     //     .then(res.redirect('/employees'))right?
@@ -146,30 +168,49 @@ app.post("/employee/update",ensureLogin, (req, res) => {
 
 });
 
-app.post("/employees/add",ensureLogin, (req, res) => {
+app.post("/employees/add", ensureLogin, (req, res) => {
     data.addEmployee(req.body)
         .then(() => {
             res.redirect("/employees");
         });
 });
 
-app.post("/images/add", upload.single("imageFile"),ensureLogin, (req, res) => {//wats this
+app.post("/images/add", upload.single("imageFile"), ensureLogin, (req, res) => {//wats this
     res.redirect("/images");
 });
 
+/*
+GET /logout 
+• This "GET" route will simply "reset" the session (Hint: refer to the Week 10 notes) and redirect the user to  
+the "/" route, ie: res.redirect('/'); 
 
+*/
 
+app.get("/logout",(req,res)=>{
+    req.session.reset();
+    res.redirect('login')
+})
+/*
+GET /userHistory 
+• This "GET" route simply renders the "userHistory" view without any data (See userHistory.hbs under Adding 
+New Routes below).  IMPORTANT NOTE: This route (like the 15 others from above) must also be protected by 
+your custom ensureLogin helper middleware. 
 
+*/
+
+app.get("/userHistory",ensureLogin,(req,res)=>{
+res.render('userHistory',{                                  //////////////                              });
+})
 
 app.get("/", (req, res) => {
     res.render('home');
 });
 
-app.get("/login",(req,res)=>{
+app.get("/login", (req, res) => {
     res.render('login');
 })
 
-app.get("/register",(req,res)=>{
+app.get("/register", (req, res) => {
     res.render('register');
 })
 
@@ -177,24 +218,24 @@ app.get("/about", (req, res) => {
     res.render('about');
 });
 
-app.get("/images/add",ensureLogin, (req, res) => {
+app.get("/images/add", ensureLogin, (req, res) => {
     res.render('addImage');
 })
 
-app.get("/employees/add",ensureLogin, (req, res) => {
+app.get("/employees/add", ensureLogin, (req, res) => {
     data.getAllEmployees()
         .then(data => res.render('addEmployee', { departments: data }))
         .catch(err => res.render('addEmployee', { departments: [] }));
 
 });
 //whers array of images???
-app.get("/images",ensureLogin, (req, res) => {
+app.get("/images", ensureLogin, (req, res) => {
     fs.readdir("./public/images/uploaded", function (err, items) {
         res.render("images", { images: items });
     });
 });
 
-app.get("/employees",ensureLogin, (req, res) => {
+app.get("/employees", ensureLogin, (req, res) => {
     if (req.query.status) {
         data.getEmployeesByStatus(req.query.status).then((data) => {
 
@@ -236,7 +277,7 @@ app.get("/employees",ensureLogin, (req, res) => {
 
 
 
-app.get("/employee/:empNum",ensureLogin, (req, res) => {// initialize an empty object to store the values
+app.get("/employee/:empNum", ensureLogin, (req, res) => {// initialize an empty object to store the values
     let viewData = {};
     data.getEmployeeByNum(req.params.empNum)///////////////////////its data
         .then((data) => {
@@ -277,13 +318,13 @@ app.get("/employee/:empNum",ensureLogin, (req, res) => {// initialize an empty o
 });
 
 
-app.get("/managers",ensureLogin, (req, res) => {
+app.get("/managers", ensureLogin, (req, res) => {
     data.getManagers().then((data) => {
         res.render("employees", { employees: data })
     });
 });
 
-app.get("/departments",ensureLogin, (req, res) => {
+app.get("/departments", ensureLogin, (req, res) => {
     data.getDepartments()
         .then(data => {
 
@@ -297,11 +338,11 @@ app.get("/departments",ensureLogin, (req, res) => {
 });
 
 
-app.get("/departments/add",ensureLogin, (req, res) => {
+app.get("/departments/add", ensureLogin, (req, res) => {
     res.render('addDepartment');
 });
 
-app.get("/department/:departmentId",ensureLogin, (req, res) => {
+app.get("/department/:departmentId", ensureLogin, (req, res) => {
     data.getDepartmentById(req.params.departmentId)
         .then(data => {
             if (data.length > 0) res.render('department', { department: data });
@@ -310,14 +351,14 @@ app.get("/department/:departmentId",ensureLogin, (req, res) => {
 
 });
 
-app.get("/departments/delete/:departmentId",ensureLogin, (req, res) => {
+app.get("/departments/delete/:departmentId", ensureLogin, (req, res) => {
     data.deleteDepartmentById(req.params.departmentId)                                          //if else or catch???
         .then(() => res.redirect('/departments'))
 
         .catch(err => res.status(500).send("Unable to Remove Department/ Departmentnot found"));
 });
 
-app.get("/employees/delete/:empNum",ensureLogin, (req, res) => {
+app.get("/employees/delete/:empNum", ensureLogin, (req, res) => {
     data.deleteEmployeeByNum(req.params.empNum)
         .then(() => res.redirect('/employees'))
         .catch(err => res.status(500).send("Unable to Remove Employee / Employee not found"));
