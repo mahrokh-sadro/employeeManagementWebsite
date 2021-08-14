@@ -53,7 +53,7 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 app.use(express.static("public"));
 
-const HTTP_PORT = process.env.PORT || 8080;
+const HTTP_PORT = process.env.PORT || 5000;
 
 // multer requires a few options to be setup to store files with file extensions
 // by default it won't store extensions for security reasons
