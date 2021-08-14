@@ -357,7 +357,7 @@ app.use((req, res) => {
 });
 
 data.initialize()
-    .then(dataServiceAuth.initialize)
+   // .then(dataServiceAuth.initialize)
     .then(() => {
         app.listen(HTTP_PORT, () => {
             console.log("app listening on: " + HTTP_PORT)
