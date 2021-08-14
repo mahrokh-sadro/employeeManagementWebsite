@@ -102,7 +102,7 @@ app.use((req, res, next) => {
     next();
 });
 
-function ensureLogin() {
+function ensureLogin(req,res,next) {
     if (!req.session.user) resolve.redirect("/login");
     else next();
 
@@ -113,12 +113,12 @@ app.post("/login", (req, res) => {
 
     //set the value of the client's "User-Agent" to the request body //wats useeagent??
     req.body.userAgent = req.get('User-Agent');
-    dataServiceAuth.CheckUser(req.body)
+    dataServiceAuth.checkUser(req.body)
         .then(user => {
             req.session.user = {
-                userName: user.req.body.userName,
-                email: user.req.body.email,
-                loginHistory: user.req.body.loginHistory
+                userName: user.userName,
+                email: user.email,
+                loginHistory: user.loginHistory
             }
             res.redirect('/employees');
         })
@@ -131,7 +131,7 @@ app.post("/login", (req, res) => {
 
 
 app.post("/register", (req, res) => {
-    dataServiceAuth.RegisterUser(req.body)
+    dataServiceAuth.registerUser(req.body)
         .then(user => res.render('register', { successMessage: "User created" }))////returns??
         .catch(err => res.render('register', { errorMessage: err, userName: req.body.userName }));
 })
