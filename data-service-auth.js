@@ -29,7 +29,7 @@ let User = mongoose.model("User", userSchema);
 
 module.exports.initialize = () => {
   return new Promise((resolve, reject) => {
-    let db = mongoose.createConnection("mongodb+srv://Ma661370:661370@cluster0.jwvms.mongodb.net/web322Asg5?retryWrites=true&w=majority");
+    let db = mongoose.createConnection("mongodb+srv://Ma661370:661370@cluster0.jwvms.mongodb.net/web322Asg5?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true});
 
     db.on('error', err => reject(err));
     db.once('open', () => {
