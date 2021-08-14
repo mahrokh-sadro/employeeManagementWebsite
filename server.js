@@ -48,7 +48,6 @@ app.engine('.hbs', exphbs({
 
 }));
 
-//whe redirevt when render?
 
 
 app.set('view engine', '.hbs');
@@ -92,10 +91,6 @@ app.use(clientSessions({
 
 }));
 
-/*
-Once this is complete, incorporate the following custom middleware function to ensure that all of your 
-templates will have access to a "session" object (ie: {{session.userName}} for example) - we will need this to 
-conditionally hide/show elements to the user depending on whether they're currently logged in. */
 
 app.use((req, res, next) => {
     res.locals.session = req.session;//what locals???
@@ -179,24 +174,11 @@ app.post("/images/add", upload.single("imageFile"), ensureLogin, (req, res) => {
     res.redirect("/images");
 });
 
-/*
-GET /logout 
-• This "GET" route will simply "reset" the session (Hint: refer to the Week 10 notes) and redirect the user to  
-the "/" route, ie: res.redirect('/'); 
-
-*/
 
 app.get("/logout",(req,res)=>{
     req.session.reset();
     res.redirect('/');
 })
-/*
-GET /userHistory 
-• This "GET" route simply renders the "userHistory" view without any data (See userHistory.hbs under Adding 
-New Routes below).  IMPORTANT NOTE: This route (like the 15 others from above) must also be protected by 
-your custom ensureLogin helper middleware. 
-
-*/
 
 app.get("/userHistory",ensureLogin,(req,res)=>{
 res.render('userHistory');
@@ -283,7 +265,7 @@ app.get("/employee/:empNum", ensureLogin, (req, res) => {// initialize an empty 
         .then((data) => {
             if (data) {
                 viewData.employee = data; //store employee data in the "viewData" object as "employee"
-            }/////////////////////////////////////////////////////////////////////////////////////////////////////?wtf???
+            }
 
             else {
                 viewData.employee = null; // set employee to nullifnone were returned
