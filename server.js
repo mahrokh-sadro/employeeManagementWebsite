@@ -167,7 +167,12 @@ app.post("/employees/add", ensureLogin, (req, res) => {
     data.addEmployee(req.body)
         .then(() => {
             res.redirect("/employees");
-        });
+        })
+        .catch((err) => {
+            res
+              .status(500)
+              .render('employee', { message: '500: Unable to add the employee' });
+          });
 });
 
 app.post("/images/add", upload.single("imageFile"), ensureLogin, (req, res) => {//wats this
