@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 
-mongoose.connect("mongodb+srv://Ma661370:661370@cluster0.jwvms.mongodb.net/web322Asg5?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect("mongodb+srv://Ma661370:661370@cluster0.jwvms.mongodb.net/web322Asg5?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true});
 
 const schema = mongoose.Schema;
 
@@ -29,7 +29,7 @@ let User = mongoose.model("User", userSchema);
 
 module.exports.initialize = () => {
   return new Promise((resolve, reject) => {
-    let db = mongoose.createConnection("mongodb+srv://Ma661370:661370@cluster0.jwvms.mongodb.net/web322Asg5?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true});
+    let db = mongoose.createConnection("mongodb+srv://Ma661370:661370@cluster0.jwvms.mongodb.net/web322Asg5?retryWrites=true&w=majority",{useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true});
 
     db.on('error', err => reject(err));
     db.once('open', () => {
