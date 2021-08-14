@@ -59,7 +59,7 @@ module.exports.registerUser = userData => {
               .then(() => {
                 resolve();
               })
-              .catch((err) => {
+              .catch(err => {
                 if (err.code == 11000) {
                   reject('User Name already taken!');
                 } else {

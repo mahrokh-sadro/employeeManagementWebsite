@@ -271,7 +271,7 @@ app.get("/employee/:empNum", ensureLogin, (req, res) => {// initialize an empty 
                 viewData.employee = null; // set employee to nullifnone were returned
             }
         })
-        .catch(() => {
+        .catch(err => {
             viewData.employee = null; // set employee to null if there was an error
         })
         .then(data.getDepartments)
@@ -286,7 +286,7 @@ app.get("/employee/:empNum", ensureLogin, (req, res) => {// initialize an empty 
                 }
             }
         })
-        .catch(() => {
+        .catch(err => {
             viewData.departments = []; // set departments to empty if there was an error
         })
         .then(() => {
@@ -365,14 +365,3 @@ data.initialize()
 
 
 
-
-
-
-
-// when we use 
-// .then(
-//     res.render("addEmployee", { departments: data })
-// )
-
-// when we use 
-// .then(()=>)
