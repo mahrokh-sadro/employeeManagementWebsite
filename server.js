@@ -4,9 +4,9 @@
 * of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
 *
-* Name: _Mahrokh Sadrolodabaee______ Student ID: __159436195_____ Date: ______
+* Name: _Mahrokh Sadrolodabaee______ Student ID: __159436195_____ Date: _Aug 14,2021_____
 *
-* Online (Heroku) Link: 
+* Online (Heroku) Link: https://xyzxx.herokuapp.com/
 *
 ********************************************************************************/
 
@@ -53,7 +53,7 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 app.use(express.static("public"));
 
-const HTTP_PORT = process.env.PORT || 5000;
+const HTTP_PORT = process.env.PORT || 8080;
 
 // multer requires a few options to be setup to store files with file extensions
 // by default it won't store extensions for security reasons
@@ -357,7 +357,7 @@ app.use((req, res) => {
 });
 
 data.initialize()
-   // .then(dataServiceAuth.initialize)
+    .then(dataServiceAuth.initialize)
     .then(() => {
         app.listen(HTTP_PORT, () => {
             console.log("app listening on: " + HTTP_PORT)

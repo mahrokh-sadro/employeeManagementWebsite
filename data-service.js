@@ -55,15 +55,16 @@ const Department = sequelize.define(
 
 Department.hasMany(Employee, { foreign: 'department' });
 
-module.exports.initialize = () => {
-    return new Promise((resolve, reject) => {
+module.exports.initialize =  ()=> {
+    return new Promise( (resolve, reject)=> {
         sequelize.sync()
-            .then(Employee => { resolve('Employee model synced'); })
-            .then(Department => { resolve('Employee model synced'); })
-            .catch(err => reject('unable to sync the database'));
-
+        .then( ()=> {
+            resolve();
+        }).catch(()=>{
+            resolve("unable to sync the database");
+        })
     });
-};
+}
 
 module.exports.getAllEmployees = () => {
     return new Promise((resolve, reject) => {
