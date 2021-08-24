@@ -2,11 +2,11 @@ const Sequelize = require('sequelize');
 
 // set up sequelize to point to our postgres database
 var sequelize = new Sequelize(
-    'dc34jltbr39qoa',
-    'okguwxhpdjxjqu',
-    'a00be4da5f5fc95358c71cfc390b9c3b95e15b68228f06bfb8dabdd2063f8bd6',
+    'ddf1sbunnrfud7',
+    'plubpxtxfnvyut',
+    'ac22924fb9ce876e60cb32946f4ddfc94d2a3beba093b82d4ac1c91c4dc03cdb',
     {
-        host: 'ec2-52-6-77-239.compute-1.amazonaws.com',
+        host: 'ec2-44-195-201-3.compute-1.amazonaws.com',
         dialect: 'postgres',
         port: 5432,
         dialectOptions: {
@@ -56,15 +56,20 @@ const Department = sequelize.define(
 Department.hasMany(Employee, { foreign: 'department' });
 
 module.exports.initialize =  ()=> {
-    return new Promise( (resolve, reject)=> {
-        sequelize.sync()
-        .then( ()=> {
-            resolve();
-        }).catch(()=>{
-            resolve("unable to sync the database");
+    return new Promise((resolve, reject) => {
+      sequelize
+        .sync()
+        .then((Employee) => {
+          resolve();
         })
+        .then((Department) => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
-}
+  }
 
 module.exports.getAllEmployees = () => {
     return new Promise((resolve, reject) => {

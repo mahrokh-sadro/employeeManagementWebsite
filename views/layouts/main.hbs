@@ -40,18 +40,12 @@
         {{#navLink "/about"}}About{{/navLink}}
       </ul>
       {{#if session.user}}
-      <ul class="nav navbar-nav navbar-right navbar-custom">
-        <li><a href="/images">Images</a></li>
-        <li><a href="/employees">Employees</a></li>
-        <li><a href="/managers">Managers</a></li>
-        <li><a href="/departments">Departments</a></li>
-      </ul>
-      <form class="navbar-form navbar-right">
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown">
-            <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;{{session.user.userName}}&nbsp;&nbsp;<span
-              class="caret"></span>
-          </button>
+    <form class="navbar-form navbar-right">
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-
+user"></span>&nbsp;&nbsp;{{session.user.userName}}&nbsp;&nbsp;<span class="caret"></span>
+            </button>
           <ul class="dropdown-menu" aria-labelledby="userMenu">
             <li><a href="/userHistory">User History</a></li>
             <li><a href="/logout">Log Out</a></li>
