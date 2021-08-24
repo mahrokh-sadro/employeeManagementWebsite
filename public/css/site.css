@@ -1,83 +1,11 @@
-/* site.css
 
 
-/* ---- reset ---- */
-/* body {
-    margin: 0;
-    font: normal 75 % Arial,
-        Helvetica,
-        sans - serif;
+  body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+
+.back-img{
+    background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("/images/1.jpg");
+    background-size: cover;
+    
 }
-
-canvas {
-    display: block;
-    vertical - align: bottom;
-} */
-
-/* ---- particles.js container ---- */
-/* #particles - js {
-    position: absolute;
-    width: 100 %;
-    height: 100 %;
-    background - color: #b61924;
-    background - image: url("");
-    background - repeat: no - repeat;
-    background - size: cover;
-    background - position: 50 % 50 %;
-} */
-
-/* ---- stats.js ---- */
-/* .count - particles {
-    background: #000022;
-    position: absolute;
-    top: 48px;
-    left: 0;
-    width: 80px;
-    color: # 13E8 E9;
-    font - size: .8 em;
-    text - align: left;
-    text - indent: 4 px;
-    line - height: 14 px;
-    padding - bottom: 2 px;
-    font - family: Helvetica,
-        Arial,
-        sans - serif;
-    font - weight: bold;
-}
-
-.js - count - particles {
-    font - size: 1.1 em;
-}
-
-#stats,
-.count - particles {
-    -webkit - user - select: none;
-    margin - top: 5 px;
-    margin - left: 5 px;
-}
-
-#stats {
-    border - radius: 3 px 3 px 0 0;
-    overflow: hidden;
-}
-
-.count - particles {
-    border - radius: 0 0 3 px 3 px;
-}
- */
-
- /* .loginform{
- 
-    backdrop-filter: blur(10px);
-    position: absolute;
-    left:auto;
-    top:200px; 
-    width:450px; */
-   /* background-color: rgba(255, 255, 255, .15);   */
-   /* // height:990px;  */
-    /* padding-right: 320px; */
-    /* font-family: Helvetica, Arial, sans-serif;
-    font-weight: bolder;
-    border-radius:3%; */
-   
-  /* }   */
