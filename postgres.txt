@@ -1,0 +1,12 @@
+Host
+ec2-34-233-157-189.compute-1.amazonaws.com
+Database
+d5gsj1c7aehqq9
+User
+eejcshgckbhheu
+Port
+5432
+Password
+0493627fda40a804ff0835b409510e679e5752e78dcdfe672cce4cac1b1d89cc
+URI
+postgres://eejcshgckbhheu:0493627fda40a804ff0835b409510e679e5752e78dcdfe672cce4cac1b1d89cc@ec2-34-233-157-189.compute-1.amazonaws.com:5432/d5gsj1c7aehqq9
