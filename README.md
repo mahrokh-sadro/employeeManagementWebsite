@@ -2,4 +2,4 @@ Employee management website
 
 https://monitor-resources.herokuapp.com/
 
-![](http://i.imgur.com/gif7.gif)
+![alt-text](https://github.com/mahrokh-sadro/employeeManagementWebsite/blob/master/public/images/gif7.gif)
