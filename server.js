@@ -46,10 +46,6 @@ app.use(express.static("public"));
 const storage = multer.diskStorage({
   destination: "./public/images/uploaded",
   filename: function (req, file, cb) {
-    // we write the filename as the current date down to the millisecond
-    // in a large web service this would possibly cause a problem if two people
-    // uploaded an image at the exact same time. A better way would be to use GUID's for filenames.
-    // this is a simple example.
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
@@ -76,7 +72,7 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  res.locals.session = req.session; //what locals???
+  res.locals.session = req.session;
   next();
 });
 
@@ -85,9 +81,7 @@ function ensureLogin(req, res, next) {
   else next();
 }
 
-//req.body  post data
 app.post("/login", (req, res) => {
-  //set the value of the client's "User-Agent" to the request body //wats useeagent??
   req.body.userAgent = req.get("User-Agent");
   dataServiceAuth
     .checkUser(req.body)
@@ -108,7 +102,7 @@ app.post("/login", (req, res) => {
 app.post("/register", (req, res) => {
   dataServiceAuth
     .registerUser(req.body)
-    .then((user) => res.render("register", { successMessage: "User created" })) ////returns??
+    .then((user) => res.render("register", { successMessage: "User created" }))
     .catch((err) =>
       res.render("register", { errorMessage: err, userName: req.body.userName })
     );
@@ -116,7 +110,7 @@ app.post("/register", (req, res) => {
 
 app.post("/department/update", ensureLogin, (req, res) => {
   data
-    .updateDepartment(req.body) //info from the from
+    .updateDepartment(req.body)
     .then(() => {
       res.redirect("/departments");
     })
@@ -137,10 +131,8 @@ app.post("/departments/add", ensureLogin, (req, res) => {
 });
 
 app.post("/employee/update", ensureLogin, (req, res) => {
-  // data.updateEmployee(req.body)
-  //     .then(res.redirect('/employees'))right?
   data
-    .updateEmployee(req.body) //when use req.body???
+    .updateEmployee(req.body)
     .then(() => res.redirect("/employees"))
     .catch((err) => res.status(500).send("Unable to Update Employee"));
 });
@@ -159,7 +151,6 @@ app.post("/employees/add", ensureLogin, (req, res) => {
 });
 
 app.post("/images/add", upload.single("imageFile"), ensureLogin, (req, res) => {
-  //wats this
   res.redirect("/images");
 });
 
@@ -198,7 +189,6 @@ app.get("/employees/add", ensureLogin, (req, res) => {
     .then((data) => res.render("addEmployee", { departments: data }))
     .catch((err) => res.render("addEmployee", { departments: [] }));
 });
-//whers array of images???
 app.get("/images", ensureLogin, (req, res) => {
   fs.readdir("./public/images/uploaded", function (err, items) {
     res.render("images", { images: items });
@@ -247,26 +237,23 @@ app.get("/employees", ensureLogin, (req, res) => {
 });
 
 app.get("/employee/:empNum", ensureLogin, (req, res) => {
-  // initialize an empty object to store the values
   let viewData = {};
   data
-    .getEmployeeByNum(req.params.empNum) ///////////////////////its data
+    .getEmployeeByNum(req.params.empNum)
     .then((data) => {
       if (data) {
-        viewData.employee = data; //store employee data in the "viewData" object as "employee"
+        viewData.employee = data;
       } else {
-        viewData.employee = null; // set employee to nullifnone were returned
+        viewData.employee = null;
       }
     })
     .catch((err) => {
-      viewData.employee = null; // set employee to null if there was an error
+      viewData.employee = null;
     })
     .then(data.getDepartments)
     .then((data) => {
-      viewData.departments = data; // store department data in the "viewData" object as "departments"
-      // loop through viewData.departments and once we have found the departmentId that matches
-      // the employee's "department" value, add a "selected" property to the matching
-      // viewData.departments object
+      viewData.departments = data;
+
       for (let i = 0; i < viewData.departments.length; i++) {
         if (
           viewData.departments[i].departmentId == viewData.employee.department
@@ -276,14 +263,13 @@ app.get("/employee/:empNum", ensureLogin, (req, res) => {
       }
     })
     .catch((err) => {
-      viewData.departments = []; // set departments to empty if there was an error
+      viewData.departments = [];
     })
     .then(() => {
       if (viewData.employee == null) {
-        // if no employee -return an error
         res.status(404).send("Employee Not Found");
       } else {
-        res.render("employee", { viewData: viewData }); // render the "employee" view
+        res.render("employee", { viewData: viewData });
       }
     });
 });
@@ -322,7 +308,7 @@ app.get("/department/:departmentId", ensureLogin, (req, res) => {
 
 app.get("/departments/delete/:departmentId", ensureLogin, (req, res) => {
   data
-    .deleteDepartmentById(req.params.departmentId) //if else or catch???
+    .deleteDepartmentById(req.params.departmentId)
     .then(() => res.redirect("/departments"))
 
     .catch((err) =>
